@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
         }
         
         body {
@@ -19,158 +19,137 @@
             padding: 20px;
         }
         
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        .calculator {
             background: white;
             border-radius: 15px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            max-width: 1200px;
+            margin: 0 auto;
             overflow: hidden;
         }
         
-        header {
+        .header {
             background: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 100%);
             color: white;
-            padding: 30px;
+            padding: 25px;
             text-align: center;
         }
         
         h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin-bottom: 10px;
         }
         
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .main-content {
+        .content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            padding: 30px;
+            padding: 25px;
         }
         
-        @media (max-width: 768px) {
-            .main-content {
+        @media (max-width: 900px) {
+            .content {
                 grid-template-columns: 1fr;
             }
         }
         
-        .input-section {
+        .input-section, .graph-section {
             background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-        }
-        
-        .graph-section {
-            background: #f8f9fa;
-            padding: 25px;
+            padding: 20px;
             border-radius: 10px;
         }
         
         .section-title {
             color: #4A00E0;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 2px solid #e0e0e0;
-            font-size: 1.3rem;
         }
         
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: 600;
             color: #555;
         }
         
-        input, select {
+        input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px;
             border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
+            border-radius: 5px;
+            font-size: 14px;
         }
         
-        input:focus, select:focus {
+        input:focus {
             outline: none;
             border-color: #4A00E0;
-            box-shadow: 0 0 0 3px rgba(74, 0, 224, 0.1);
         }
         
-        .quick-examples {
-            margin-top: 25px;
-        }
-        
-        .examples-grid {
+        .preset-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             margin-top: 10px;
         }
         
-        .example-btn {
-            padding: 12px;
+        .preset-btn {
+            padding: 10px;
             background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
             cursor: pointer;
-            text-align: center;
+            font-size: 13px;
             transition: all 0.3s;
-            font-size: 14px;
         }
         
-        .example-btn:hover {
+        .preset-btn:hover {
             border-color: #4A00E0;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .calculate-btn {
             background: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: bold;
             width: 100%;
-            margin-top: 20px;
-            transition: all 0.3s;
+            margin-top: 15px;
+            transition: transform 0.3s;
         }
         
         .calculate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 7px 20px rgba(74, 0, 224, 0.3);
         }
         
         .graph-container {
             height: 300px;
-            position: relative;
             background: white;
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #ddd;
         }
         
         .results {
+            grid-column: 1 / -1;
             background: #f8f9fa;
-            padding: 30px;
-            margin-top: 20px;
+            padding: 20px;
             border-radius: 10px;
+            margin-top: 10px;
         }
         
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
         }
         
         @media (max-width: 768px) {
@@ -181,89 +160,106 @@
         
         .result-box {
             background: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             border-left: 4px solid #4A00E0;
         }
         
         .result-title {
             color: #4A00E0;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
         }
         
-        .result-content {
+        .result-value {
             font-family: 'Courier New', monospace;
-            font-size: 1rem;
             color: #333;
-            line-height: 1.5;
+            font-size: 14px;
         }
         
         .legend {
             display: flex;
             justify-content: center;
             gap: 20px;
-            margin-top: 15px;
+            margin-top: 10px;
             flex-wrap: wrap;
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
+            gap: 5px;
+            font-size: 12px;
         }
         
         .legend-color {
-            width: 20px;
-            height: 10px;
+            width: 15px;
+            height: 8px;
             border-radius: 2px;
         }
         
         .info-box {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
+            background: #e8f4fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
             border-left: 4px solid #2196f3;
+            font-size: 13px;
+        }
+        
+        .constant-inputs {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
         }
         
         .footer {
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             color: #666;
-            font-size: 0.9rem;
+            font-size: 12px;
             background: #f8f9fa;
             border-top: 1px solid #e0e0e0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
+    <div class="calculator">
+        <div class="header">
             <h1>Orthogonal Trajectory Calculator</h1>
-            <p class="subtitle">Find curves that intersect at 90° angles. Enter any curve equation!</p>
-        </header>
+            <p>Works with parameters like r, a, b, k, C, etc.</p>
+        </div>
         
-        <div class="main-content">
+        <div class="content">
             <div class="input-section">
-                <h2 class="section-title">Enter Your Curve</h2>
+                <h2 class="section-title">Enter Curve Equation</h2>
                 
                 <div class="input-group">
-                    <label for="equation">Curve Equation:</label>
-                    <input type="text" id="equation" placeholder="Example: y = x^2 or x^2 + y^2 = 9" value="y = x^2">
+                    <label for="equation">Equation (use parameters like r, a, b, k):</label>
+                    <input type="text" id="equation" placeholder="x^2 + y^2 = r^2" value="x^2 + y^2 = r^2">
                 </div>
                 
-                <div class="quick-examples">
-                    <label>Quick Examples (click to try):</label>
-                    <div class="examples-grid">
-                        <button class="example-btn" data-eq="y = x^2">Parabola: y = x²</button>
-                        <button class="example-btn" data-eq="x^2 + y^2 = 25">Circle: x² + y² = 25</button>
-                        <button class="example-btn" data-eq="y = 1/x">Hyperbola: y = 1/x</button>
-                        <button class="example-btn" data-eq="y = sin(x)">Sine: y = sin(x)</button>
-                        <button class="example-btn" data-eq="y = e^x">Exponential: y = eˣ</button>
-                        <button class="example-btn" data-eq="y = x^3">Cubic: y = x³</button>
+                <div class="constant-inputs">
+                    <label>Set Parameter Values:</label>
+                    <div id="paramInputs">
+                        <div class="input-group">
+                            <label for="param_r">r (radius):</label>
+                            <input type="number" id="param_r" placeholder="3" value="3" step="0.1">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>Quick Examples:</label>
+                    <div class="preset-grid">
+                        <button class="preset-btn" data-eq="x^2 + y^2 = r^2" data-r="3">Circle: x² + y² = r²</button>
+                        <button class="preset-btn" data-eq="x^2/a^2 + y^2/b^2 = 1" data-a="2" data-b="3">Ellipse: x²/a² + y²/b² = 1</button>
+                        <button class="preset-btn" data-eq="y = k*x^2" data-k="1">Parabola: y = kx²</button>
+                        <button class="preset-btn" data-eq="y = k/x" data-k="1">Hyperbola: y = k/x</button>
+                        <button class="preset-btn" data-eq="y = sin(k*x)" data-k="1">Sine: y = sin(kx)</button>
+                        <button class="preset-btn" data-eq="y = e^(k*x)" data-k="1">Exponential: y = e^(kx)</button>
                     </div>
                 </div>
                 
@@ -272,12 +268,12 @@
                 </button>
                 
                 <div class="info-box">
-                    <p><strong>How it works:</strong> For a curve y = f(x), the orthogonal trajectory satisfies dy/dx = -1/f'(x). We solve this differential equation to find the orthogonal family.</p>
+                    <p><strong>How parameters work:</strong> Parameters like r, a, b, k are treated as constants. Set their values, and the calculator will substitute them into the equation.</p>
                 </div>
             </div>
             
             <div class="graph-section">
-                <h2 class="section-title">Visualization</h2>
+                <h2 class="section-title">Graph Visualization</h2>
                 <div class="graph-container">
                     <canvas id="trajectoryChart"></canvas>
                 </div>
@@ -285,7 +281,7 @@
                 <div class="legend">
                     <div class="legend-item">
                         <div class="legend-color" style="background-color: #4A00E0;"></div>
-                        <span>Original Curve</span>
+                        <span>Original Curve (with constants)</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background-color: #FF5722;"></div>
@@ -293,43 +289,49 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="results">
-            <h2 class="section-title">Results</h2>
-            <div class="results-grid">
-                <div class="result-box">
-                    <div class="result-title">Original Curve:</div>
-                    <div class="result-content" id="originalCurve">y = x²</div>
-                </div>
-                
-                <div class="result-box">
-                    <div class="result-title">Orthogonal Trajectory:</div>
-                    <div class="result-content" id="orthogonalCurve">y = -½ ln|x| + C</div>
-                </div>
-                
-                <div class="result-box">
-                    <div class="result-title">Mathematical Steps:</div>
-                    <div class="result-content" id="calculationSteps">
-                        1. y = x²<br>
-                        2. dy/dx = 2x<br>
-                        3. Orthogonal slope = -1/(2x)<br>
-                        4. Solve: dy/dx = -1/(2x)<br>
-                        5. Solution: y = -½ ln|x| + C
+            
+            <div class="results">
+                <h2 class="section-title">Calculation Results</h2>
+                <div class="results-grid">
+                    <div class="result-box">
+                        <div class="result-title">Original Curve:</div>
+                        <div class="result-value" id="originalCurve">x² + y² = r²</div>
                     </div>
-                </div>
-                
-                <div class="result-box">
-                    <div class="result-title">Explanation:</div>
-                    <div class="result-content">
-                        The orthogonal trajectories intersect the original curve at right angles (90°). Each trajectory corresponds to a different value of the constant C.
+                    
+                    <div class="result-box">
+                        <div class="result-title">With Constants:</div>
+                        <div class="result-value" id="substitutedCurve">x² + y² = 9</div>
+                    </div>
+                    
+                    <div class="result-box">
+                        <div class="result-title">Orthogonal Trajectory:</div>
+                        <div class="result-value" id="orthogonalCurve">y = Cx</div>
+                    </div>
+                    
+                    <div class="result-box">
+                        <div class="result-title">Parameter Values:</div>
+                        <div class="result-value" id="paramValues">r = 3</div>
+                    </div>
+                    
+                    <div class="result-box">
+                        <div class="result-title">Calculation Steps:</div>
+                        <div class="result-value" id="calculationSteps">
+                            1. x² + y² = r²<br>
+                            2. dy/dx = -x/y<br>
+                            3. Orthogonal: dy/dx = y/x
+                        </div>
+                    </div>
+                    
+                    <div class="result-box">
+                        <div class="result-title">Mathematical Form:</div>
+                        <div class="result-value" id="mathForm">y = mx (lines through origin)</div>
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="footer">
-            <p>Orthogonal Trajectory Calculator | Works with any curve equation | Click "Calculate" to see results</p>
+            <p>Orthogonal Trajectory Calculator with Parameter Support | Parameters: r, a, b, k, m, C</p>
         </div>
     </div>
 
@@ -337,35 +339,77 @@
         // DOM Elements
         const equationInput = document.getElementById('equation');
         const calculateBtn = document.getElementById('calculateBtn');
-        const exampleBtns = document.querySelectorAll('.example-btn');
+        const presetBtns = document.querySelectorAll('.preset-btn');
+        const paramInputsContainer = document.getElementById('paramInputs');
         const originalCurve = document.getElementById('originalCurve');
+        const substitutedCurve = document.getElementById('substitutedCurve');
         const orthogonalCurve = document.getElementById('orthogonalCurve');
+        const paramValues = document.getElementById('paramValues');
         const calculationSteps = document.getElementById('calculationSteps');
+        const mathForm = document.getElementById('mathForm');
+        
+        // Store parameter values
+        let params = {};
         
         // Initialize Chart.js
-        const ctx = document.getElementById('trajectoryChart').getContext('2d');
         let trajectoryChart;
         
-        // Set up example buttons
-        exampleBtns.forEach(btn => {
+        // Setup preset buttons
+        presetBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 equationInput.value = this.dataset.eq;
+                
+                // Clear previous parameters
+                params = {};
+                paramInputsContainer.innerHTML = '';
+                
+                // Extract parameters from data attributes
+                if (this.dataset.r) {
+                    addParamInput('r', 'r (radius):', this.dataset.r);
+                    params.r = parseFloat(this.dataset.r);
+                }
+                if (this.dataset.a) {
+                    addParamInput('a', 'a (semi-major axis):', this.dataset.a);
+                    params.a = parseFloat(this.dataset.a);
+                }
+                if (this.dataset.b) {
+                    addParamInput('b', 'b (semi-minor axis):', this.dataset.b);
+                    params.b = parseFloat(this.dataset.b);
+                }
+                if (this.dataset.k) {
+                    addParamInput('k', 'k (constant):', this.dataset.k);
+                    params.k = parseFloat(this.dataset.k);
+                }
+                
                 calculateOrthogonal();
             });
         });
         
+        // Add parameter input field
+        function addParamInput(name, label, value) {
+            const div = document.createElement('div');
+            div.className = 'input-group';
+            div.innerHTML = `
+                <label for="param_${name}">${label}</label>
+                <input type="number" id="param_${name}" value="${value}" step="0.1">
+            `;
+            paramInputsContainer.appendChild(div);
+            
+            // Add event listener to update params
+            const input = document.getElementById(`param_${name}`);
+            input.addEventListener('input', function() {
+                params[name] = parseFloat(this.value) || 0;
+                calculateOrthogonal();
+            });
+        }
+        
         // Calculate button event
         calculateBtn.addEventListener('click', calculateOrthogonal);
         
-        // Enter key support
-        equationInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                calculateOrthogonal();
-            }
-        });
-        
         // Initialize chart
-        function initializeChart() {
+        function initChart() {
+            const ctx = document.getElementById('trajectoryChart').getContext('2d');
+            
             if (trajectoryChart) {
                 trajectoryChart.destroy();
             }
@@ -382,8 +426,7 @@
                             pointRadius: 0,
                             borderWidth: 3,
                             showLine: true,
-                            fill: false,
-                            tension: 0
+                            fill: false
                         },
                         {
                             label: 'Orthogonal Trajectories',
@@ -393,8 +436,7 @@
                             pointRadius: 0,
                             borderWidth: 2,
                             showLine: true,
-                            fill: false,
-                            tension: 0
+                            fill: false
                         }
                     ]
                 },
@@ -405,29 +447,20 @@
                         x: {
                             type: 'linear',
                             position: 'bottom',
-                            title: {
-                                display: true,
-                                text: 'x-axis',
-                                font: { size: 12, weight: 'bold' }
-                            },
-                            grid: { color: 'rgba(0,0,0,0.1)' },
+                            title: { display: true, text: 'x' },
+                            grid: { color: '#f0f0f0' },
                             min: -10,
                             max: 10
                         },
                         y: {
-                            title: {
-                                display: true,
-                                text: 'y-axis',
-                                font: { size: 12, weight: 'bold' }
-                            },
-                            grid: { color: 'rgba(0,0,0,0.1)' },
+                            title: { display: true, text: 'y' },
+                            grid: { color: '#f0f0f0' },
                             min: -10,
                             max: 10
                         }
                     },
                     plugins: {
-                        legend: { display: false },
-                        tooltip: { enabled: false }
+                        legend: { display: false }
                     }
                 }
             });
@@ -438,348 +471,369 @@
             const equation = equationInput.value.trim();
             
             if (!equation) {
-                alert('Please enter a curve equation.');
+                alert('Please enter an equation');
                 return;
             }
             
-            // Parse the equation
-            const parsed = parseEquation(equation);
+            // Update parameters from input fields
+            updateParamsFromInputs();
             
-            if (!parsed.success) {
-                alert('Please enter a valid equation. Examples:\n- y = x^2\n- x^2 + y^2 = 25\n- y = sin(x)\n- y = 1/x');
-                return;
-            }
-            
-            // Calculate orthogonal trajectory
-            const result = calculateTrajectory(parsed);
+            // Parse equation and calculate
+            const result = processEquation(equation, params);
             
             // Update display
-            originalCurve.textContent = parsed.display;
-            orthogonalCurve.textContent = result.equation;
-            calculationSteps.innerHTML = result.steps.join('<br>');
+            updateDisplay(result);
             
             // Update chart
-            updateChart(parsed, result);
+            updateChart(result);
         }
         
-        // Parse equation function
-        function parseEquation(eq) {
-            eq = eq.replace(/\s+/g, '');
+        // Update parameters from input fields
+        function updateParamsFromInputs() {
+            // Get all parameter inputs
+            const paramInputs = document.querySelectorAll('[id^="param_"]');
+            paramInputs.forEach(input => {
+                const paramName = input.id.replace('param_', '');
+                params[paramName] = parseFloat(input.value) || 1;
+            });
+        }
+        
+        // Process equation with parameters
+        function processEquation(eq, params) {
+            const originalEq = eq;
+            let substitutedEq = eq;
+            let orthogonalEq = '';
+            let steps = [];
+            let paramInfo = [];
+            let mathDescription = '';
             
-            // Check for y = f(x) format
-            if (eq.toLowerCase().startsWith('y=')) {
-                const f = eq.substring(2);
-                return {
-                    success: true,
-                    type: 'explicit',
-                    f: f,
-                    display: `y = ${formatEquation(f)}`
-                };
+            // Substitute parameter values
+            for (const [key, value] of Object.entries(params)) {
+                const regex = new RegExp(`\\b${key}\\b`, 'g');
+                substitutedEq = substitutedEq.replace(regex, value);
+                paramInfo.push(`${key} = ${value}`);
             }
             
-            // Check for x^2 + y^2 = constant
-            const circleMatch = eq.match(/x\^2\+y\^2=(\d+)/);
-            if (circleMatch) {
-                const r = Math.sqrt(parseInt(circleMatch[1]));
-                return {
-                    success: true,
-                    type: 'circle',
-                    r: r,
-                    display: `x² + y² = ${r}²`
-                };
+            // Clean up equation
+            substitutedEq = substitutedEq.replace(/\^/g, '²').replace(/\*/g, '');
+            
+            // Identify equation type and calculate orthogonal
+            if (eq.includes('x^2 + y^2 = r^2')) {
+                const r = params.r || 3;
+                
+                steps = [
+                    `1. Original: x² + y² = r² (r = ${r})`,
+                    '2. Differentiate: 2x + 2y·dy/dx = 0',
+                    `3. dy/dx = -x/y`,
+                    '4. Orthogonal slope: -1/(dy/dx) = y/x',
+                    '5. Solve: dy/dx = y/x',
+                    '6. Solution: y = Cx'
+                ];
+                
+                orthogonalEq = 'y = Cx';
+                mathDescription = 'Lines through origin';
+                
+            } else if (eq.includes('x^2/a^2 + y^2/b^2 = 1')) {
+                const a = params.a || 2;
+                const b = params.b || 3;
+                
+                steps = [
+                    `1. Original: x²/a² + y²/b² = 1 (a=${a}, b=${b})`,
+                    '2. Differentiate: 2x/a² + (2y/b²)·dy/dx = 0',
+                    `3. dy/dx = -(b²x)/(a²y)`,
+                    '4. Orthogonal slope: (a²y)/(b²x)',
+                    '5. Solve: dy/dx = (a²y)/(b²x)',
+                    `6. Solution: y = C·x^(±${(b*b)/(a*a).toFixed(2)})`
+                ];
+                
+                orthogonalEq = `y = C·x^(±${(b*b)/(a*a).toFixed(2)})`;
+                mathDescription = 'Power functions';
+                
+            } else if (eq.includes('y = k*x^2')) {
+                const k = params.k || 1;
+                
+                steps = [
+                    `1. Original: y = kx² (k = ${k})`,
+                    `2. Differentiate: dy/dx = 2kx`,
+                    '3. Orthogonal slope: -1/(2kx)',
+                    '4. Solve: dy/dx = -1/(2kx)',
+                    '5. Solution: y = -(1/(2k))·ln|x| + C'
+                ];
+                
+                orthogonalEq = `y = -${(1/(2*k)).toFixed(2)}·ln|x| + C`;
+                mathDescription = 'Logarithmic curves';
+                
+            } else if (eq.includes('y = k/x')) {
+                const k = params.k || 1;
+                
+                steps = [
+                    `1. Original: y = k/x (k = ${k})`,
+                    `2. Differentiate: dy/dx = -k/x²`,
+                    '3. Orthogonal slope: x²/k',
+                    '4. Solve: dy/dx = x²/k',
+                    `5. Solution: y = (1/(3k))·x³ + C`
+                ];
+                
+                orthogonalEq = `y = ${(1/(3*k)).toFixed(3)}·x³ + C`;
+                mathDescription = 'Cubic curves';
+                
+            } else if (eq.includes('y = sin(k*x)')) {
+                const k = params.k || 1;
+                
+                steps = [
+                    `1. Original: y = sin(${k}x)`,
+                    `2. Differentiate: dy/dx = ${k}·cos(${k}x)`,
+                    `3. Orthogonal slope: -1/(${k}·cos(${k}x))`,
+                    '4. Solve: dy/dx = -1/(k·cos(kx))',
+                    '5. Solution: y = -(1/k)·ln|sec(kx) + tan(kx)| + C'
+                ];
+                
+                orthogonalEq = `y = -${(1/k).toFixed(2)}·ln|sec(${k}x) + tan(${k}x)| + C`;
+                mathDescription = 'Logarithmic of trigonometric';
+                
+            } else if (eq.includes('y = e^(k*x)')) {
+                const k = params.k || 1;
+                
+                steps = [
+                    `1. Original: y = e^(${k}x)`,
+                    `2. Differentiate: dy/dx = ${k}·e^(${k}x)`,
+                    `3. Orthogonal slope: -1/(${k}·e^(${k}x))`,
+                    '4. Solve: dy/dx = -1/(k·e^(kx))',
+                    `5. Solution: y = -(1/${k})·e^(-${k}x) + C`
+                ];
+                
+                orthogonalEq = `y = -${(1/k).toFixed(2)}·e^(-${k}x) + C`;
+                mathDescription = 'Exponential decay';
+                
+            } else if (eq.includes('y = m*x + b')) {
+                const m = params.m || 1;
+                const b = params.b || 0;
+                
+                steps = [
+                    `1. Original: y = ${m}x + ${b}`,
+                    `2. Differentiate: dy/dx = ${m}`,
+                    `3. Orthogonal slope: -1/${m}`,
+                    `4. Solve: dy/dx = -1/${m}`,
+                    `5. Solution: y = -${(1/m).toFixed(2)}x + C`
+                ];
+                
+                orthogonalEq = `y = -${(1/m).toFixed(2)}x + C`;
+                mathDescription = 'Parallel lines';
+                
+            } else {
+                // Generic handling
+                steps = [
+                    '1. Parse equation with parameters',
+                    '2. Substitute parameter values',
+                    '3. Differentiate (explicitly or implicitly)',
+                    '4. Orthogonal condition: m₁·m₂ = -1',
+                    '5. Solve resulting differential equation'
+                ];
+                
+                orthogonalEq = 'Solve: dy/dx = -1/(original slope)';
+                mathDescription = 'General solution';
             }
             
-            // Check for implicit equation
-            if (eq.includes('=')) {
-                const parts = eq.split('=');
-                return {
-                    success: true,
-                    type: 'implicit',
-                    left: parts[0],
-                    right: parts[1],
-                    display: formatEquation(parts[0]) + ' = ' + parts[1]
-                };
-            }
-            
-            // If just an expression, assume y = expression
             return {
-                success: true,
-                type: 'explicit',
-                f: eq,
-                display: `y = ${formatEquation(eq)}`
+                originalEq,
+                substitutedEq,
+                orthogonalEq,
+                steps,
+                paramInfo,
+                mathDescription,
+                params: { ...params }
             };
         }
         
-        // Format equation for display
-        function formatEquation(eq) {
-            return eq
-                .replace(/\^2/g, '²')
-                .replace(/\^3/g, '³')
-                .replace(/sin\(/g, 'sin(')
-                .replace(/cos\(/g, 'cos(')
-                .replace(/tan\(/g, 'tan(')
-                .replace(/ln\(/g, 'ln(')
-                .replace(/sqrt\(/g, '√(');
-        }
-        
-        // Calculate orthogonal trajectory
-        function calculateTrajectory(parsed) {
-            const steps = [];
-            let equation = '';
-            
-            switch(parsed.type) {
-                case 'explicit':
-                    const f = parsed.f;
-                    
-                    steps.push(`1. Original curve: y = ${formatEquation(f)}`);
-                    
-                    // Handle common functions
-                    if (f === 'x^2') {
-                        steps.push('2. Find derivative: dy/dx = 2x');
-                        steps.push('3. Orthogonal condition: dy/dx = -1/(2x)');
-                        steps.push('4. Solve differential equation:');
-                        steps.push('   ∫dy = ∫-1/(2x) dx');
-                        steps.push('   y = -½ ∫(1/x) dx');
-                        steps.push('   y = -½ ln|x| + C');
-                        equation = 'y = -½ ln|x| + C';
-                    }
-                    else if (f === '1/x' || f === 'x^(-1)') {
-                        steps.push('2. Find derivative: dy/dx = -1/x²');
-                        steps.push('3. Orthogonal condition: dy/dx = x²');
-                        steps.push('4. Solve: ∫dy = ∫x² dx');
-                        steps.push('   y = (1/3)x³ + C');
-                        equation = 'y = (1/3)x³ + C';
-                    }
-                    else if (f === 'sin(x)') {
-                        steps.push('2. Find derivative: dy/dx = cos(x)');
-                        steps.push('3. Orthogonal condition: dy/dx = -1/cos(x) = -sec(x)');
-                        steps.push('4. Solve: ∫dy = ∫-sec(x) dx');
-                        steps.push('   y = -ln|sec(x) + tan(x)| + C');
-                        equation = 'y = -ln|sec(x) + tan(x)| + C';
-                    }
-                    else if (f === 'e^x' || f === 'exp(x)') {
-                        steps.push('2. Find derivative: dy/dx = e^x');
-                        steps.push('3. Orthogonal condition: dy/dx = -e^{-x}');
-                        steps.push('4. Solve: ∫dy = ∫-e^{-x} dx');
-                        steps.push('   y = e^{-x} + C');
-                        equation = 'y = e^{-x} + C';
-                    }
-                    else if (f === 'x^3') {
-                        steps.push('2. Find derivative: dy/dx = 3x²');
-                        steps.push('3. Orthogonal condition: dy/dx = -1/(3x²)');
-                        steps.push('4. Solve: ∫dy = ∫-1/(3x²) dx');
-                        steps.push('   y = 1/(3x) + C');
-                        equation = 'y = 1/(3x) + C';
-                    }
-                    else if (f === 'x') {
-                        steps.push('2. Find derivative: dy/dx = 1');
-                        steps.push('3. Orthogonal condition: dy/dx = -1');
-                        steps.push('4. Solve: ∫dy = ∫-1 dx');
-                        steps.push('   y = -x + C');
-                        equation = 'y = -x + C';
-                    }
-                    else if (f === 'sqrt(x)' || f === 'x^(1/2)') {
-                        steps.push('2. Find derivative: dy/dx = 1/(2√x)');
-                        steps.push('3. Orthogonal condition: dy/dx = -2√x');
-                        steps.push('4. Solve: ∫dy = ∫-2√x dx');
-                        steps.push('   y = -(4/3)x^(3/2) + C');
-                        equation = 'y = -(4/3)x^(3/2) + C';
-                    }
-                    else {
-                        steps.push('2. Find derivative: f\'(x)');
-                        steps.push('3. Orthogonal condition: dy/dx = -1/f\'(x)');
-                        steps.push('4. Solve the differential equation');
-                        equation = 'dy/dx = -1/f\'(x) where f(x) = ' + formatEquation(f);
-                    }
-                    break;
-                    
-                case 'circle':
-                    const r = parsed.r;
-                    steps.push(`1. Original curve: x² + y² = ${r}²`);
-                    steps.push('2. Implicit differentiation: 2x + 2y(dy/dx) = 0');
-                    steps.push('3. Solve for dy/dx: dy/dx = -x/y');
-                    steps.push('4. Orthogonal condition: dy/dx = y/x');
-                    steps.push('5. Solve: ∫(1/y) dy = ∫(1/x) dx');
-                    steps.push('   ln|y| = ln|x| + C');
-                    steps.push('   y = Cx');
-                    equation = 'y = Cx (lines through origin)';
-                    break;
-                    
-                default:
-                    steps.push('1. Original curve: ' + parsed.display);
-                    steps.push('2. Use implicit differentiation');
-                    steps.push('3. Apply orthogonal condition: m₁ × m₂ = -1');
-                    steps.push('4. Solve resulting differential equation');
-                    equation = 'Solve: F_x dx + F_y dy = 0';
-            }
-            
-            return { equation, steps };
+        // Update display with results
+        function updateDisplay(result) {
+            originalCurve.textContent = result.originalEq;
+            substitutedCurve.textContent = result.substitutedEq;
+            orthogonalCurve.textContent = result.orthogonalEq;
+            paramValues.textContent = result.paramInfo.join(', ') || 'No parameters';
+            calculationSteps.innerHTML = result.steps.join('<br>');
+            mathForm.textContent = result.mathDescription;
         }
         
         // Update chart with data
-        function updateChart(parsed, result) {
-            initializeChart();
+        function updateChart(result) {
+            initChart();
             
-            let originalData = [];
-            let orthogonalData = [];
+            const originalData = generateOriginalCurve(result.originalEq, result.params);
+            const orthogonalData = generateOrthogonalCurves(result.originalEq, result.params);
             
-            // Generate data for original curve
-            switch(parsed.type) {
-                case 'explicit':
-                    originalData = generateExplicitData(parsed.f, -5, 5, 0.1);
-                    break;
-                case 'circle':
-                    originalData = generateCircleData(parsed.r, 100);
-                    break;
-                default:
-                    // Default to parabola for unknown types
-                    originalData = generateExplicitData('x^2', -5, 5, 0.1);
-            }
-            
-            // Generate orthogonal trajectories based on result
-            if (result.equation.includes('y = Cx')) {
-                // Lines through origin for circles
-                orthogonalData = generateLinesThroughOrigin(6, 5);
-            }
-            else if (result.equation.includes('ln|x|')) {
-                // Logarithmic curves for parabolas
-                orthogonalData = generateLogCurves(5, -3, 3, 0.2);
-            }
-            else if (result.equation.includes('x³')) {
-                // Cubic curves for hyperbolas
-                orthogonalData = generateCubicCurves(5, -3, 3, 0.2);
-            }
-            else if (result.equation.includes('e^{-x}')) {
-                // Exponential decay for exponentials
-                orthogonalData = generateExpDecayCurves(5, -3, 3, 0.2);
-            }
-            else {
-                // Default orthogonal lines
-                orthogonalData = generateDefaultOrthogonals(6, -5, 5);
-            }
-            
-            // Update chart data
             trajectoryChart.data.datasets[0].data = originalData;
             trajectoryChart.data.datasets[1].data = orthogonalData;
             trajectoryChart.update();
         }
         
-        // Data generation functions
-        
-        function generateExplicitData(f, xMin, xMax, step) {
+        // Generate original curve data
+        function generateOriginalCurve(eq, params) {
             const data = [];
-            for (let x = xMin; x <= xMax; x += step) {
-                try {
-                    const expr = f
-                        .replace(/\^/g, '**')
-                        .replace(/sin\(/g, 'Math.sin(')
-                        .replace(/cos\(/g, 'Math.cos(')
-                        .replace(/tan\(/g, 'Math.tan(')
-                        .replace(/sqrt\(/g, 'Math.sqrt(')
-                        .replace(/ln\(/g, 'Math.log(')
-                        .replace(/e\^/g, 'Math.exp(')
-                        .replace(/exp\(/g, 'Math.exp(');
-                    
-                    const y = eval(expr);
-                    if (Math.abs(y) < 20) { // Limit extreme values
-                        data.push({x: x, y: y});
-                    }
-                } catch(e) {
-                    // Skip invalid points
-                }
-            }
-            return data;
-        }
-        
-        function generateCircleData(r, points) {
-            const data = [];
-            for (let i = 0; i <= points; i++) {
-                const theta = (i * 2 * Math.PI) / points;
-                data.push({
-                    x: r * Math.cos(theta),
-                    y: r * Math.sin(theta)
-                });
-            }
-            return data;
-        }
-        
-        function generateLinesThroughOrigin(count, length) {
-            const data = [];
-            for (let i = 0; i < count; i++) {
-                const angle = (i * Math.PI) / count;
-                for (let t = -length; t <= length; t += 0.5) {
+            
+            if (eq.includes('x^2 + y^2 = r^2')) {
+                const r = params.r || 3;
+                // Generate circle
+                for (let theta = 0; theta <= 2 * Math.PI; theta += 0.1) {
                     data.push({
-                        x: t * Math.cos(angle),
-                        y: t * Math.sin(angle)
+                        x: r * Math.cos(theta),
+                        y: r * Math.sin(theta)
                     });
                 }
-                data.push({x: NaN, y: NaN}); // Break
-            }
-            return data;
-        }
-        
-        function generateLogCurves(count, xMin, xMax, step) {
-            const data = [];
-            for (let c = -count/2; c <= count/2; c++) {
-                for (let x = xMin; x <= xMax; x += step) {
-                    if (x !== 0) {
+                
+            } else if (eq.includes('x^2/a^2 + y^2/b^2 = 1')) {
+                const a = params.a || 2;
+                const b = params.b || 3;
+                // Generate ellipse
+                for (let theta = 0; theta <= 2 * Math.PI; theta += 0.1) {
+                    data.push({
+                        x: a * Math.cos(theta),
+                        y: b * Math.sin(theta)
+                    });
+                }
+                
+            } else if (eq.includes('y = k*x^2')) {
+                const k = params.k || 1;
+                // Generate parabola
+                for (let x = -5; x <= 5; x += 0.2) {
+                    data.push({
+                        x: x,
+                        y: k * x * x
+                    });
+                }
+                
+            } else if (eq.includes('y = k/x')) {
+                const k = params.k || 1;
+                // Generate hyperbola
+                for (let x = -5; x <= 5; x += 0.2) {
+                    if (Math.abs(x) > 0.3) { // Avoid division by near-zero
                         data.push({
                             x: x,
-                            y: -0.5 * Math.log(Math.abs(x)) + c
+                            y: k / x
                         });
                     }
                 }
-                data.push({x: NaN, y: NaN}); // Break
+                
+            } else if (eq.includes('y = sin(k*x)')) {
+                const k = params.k || 1;
+                // Generate sine wave
+                for (let x = -5; x <= 5; x += 0.1) {
+                    data.push({
+                        x: x,
+                        y: Math.sin(k * x)
+                    });
+                }
+                
+            } else if (eq.includes('y = e^(k*x)')) {
+                const k = params.k || 1;
+                // Generate exponential
+                for (let x = -3; x <= 2; x += 0.1) {
+                    data.push({
+                        x: x,
+                        y: Math.exp(k * x)
+                    });
+                }
+                
+            } else {
+                // Default: generate a parabola
+                for (let x = -5; x <= 5; x += 0.2) {
+                    data.push({
+                        x: x,
+                        y: x * x / 4
+                    });
+                }
             }
+            
             return data;
         }
         
-        function generateCubicCurves(count, xMin, xMax, step) {
+        // Generate orthogonal trajectories
+        function generateOrthogonalCurves(eq, params) {
             const data = [];
-            for (let c = -count/2; c <= count/2; c++) {
-                for (let x = xMin; x <= xMax; x += step) {
-                    data.push({
-                        x: x,
-                        y: (1/3) * Math.pow(x, 3) + c
-                    });
+            
+            if (eq.includes('x^2 + y^2 = r^2')) {
+                // Lines through origin for circles
+                for (let i = 0; i < 8; i++) {
+                    const angle = (i * Math.PI) / 8;
+                    for (let t = -6; t <= 6; t += 0.5) {
+                        data.push({
+                            x: t * Math.cos(angle),
+                            y: t * Math.sin(angle)
+                        });
+                    }
+                    data.push({x: NaN, y: NaN}); // Break
                 }
-                data.push({x: NaN, y: NaN}); // Break
-            }
-            return data;
-        }
-        
-        function generateExpDecayCurves(count, xMin, xMax, step) {
-            const data = [];
-            for (let c = -count/2; c <= count/2; c++) {
-                for (let x = xMin; x <= xMax; x += step) {
-                    data.push({
-                        x: x,
-                        y: Math.exp(-x) + c
-                    });
+                
+            } else if (eq.includes('x^2/a^2 + y^2/b^2 = 1')) {
+                const a = params.a || 2;
+                const b = params.b || 3;
+                const power = (b*b)/(a*a);
+                
+                // Power functions for ellipses
+                for (let c = -2; c <= 2; c += 0.8) {
+                    for (let x = -3; x <= 3; x += 0.2) {
+                        if (Math.abs(x) > 0.1) {
+                            const y = c * Math.pow(Math.abs(x), power) * Math.sign(x);
+                            if (Math.abs(y) < 10) {
+                                data.push({x, y});
+                            }
+                        }
+                    }
+                    data.push({x: NaN, y: NaN}); // Break
                 }
-                data.push({x: NaN, y: NaN}); // Break
-            }
-            return data;
-        }
-        
-        function generateDefaultOrthogonals(count, xMin, xMax) {
-            const data = [];
-            for (let i = 0; i < count; i++) {
-                const m = -2 + (i * 4) / (count - 1);
-                for (let x = xMin; x <= xMax; x += 0.5) {
-                    data.push({
-                        x: x,
-                        y: m * x + (i - count/2) * 2
-                    });
+                
+            } else if (eq.includes('y = k*x^2')) {
+                const k = params.k || 1;
+                
+                // Logarithmic curves for parabolas
+                for (let c = -3; c <= 3; c++) {
+                    for (let x = -4; x <= 4; x += 0.2) {
+                        if (Math.abs(x) > 0.2) {
+                            const y = -(1/(2*k)) * Math.log(Math.abs(x)) + c;
+                            if (Math.abs(y) < 10) {
+                                data.push({x, y});
+                            }
+                        }
+                    }
+                    data.push({x: NaN, y: NaN}); // Break
                 }
-                data.push({x: NaN, y: NaN}); // Break
+                
+            } else if (eq.includes('y = k/x')) {
+                const k = params.k || 1;
+                
+                // Cubic curves for hyperbolas
+                for (let c = -3; c <= 3; c++) {
+                    for (let x = -3; x <= 3; x += 0.2) {
+                        const y = (1/(3*k)) * x * x * x + c;
+                        if (Math.abs(y) < 10) {
+                            data.push({x, y});
+                        }
+                    }
+                    data.push({x: NaN, y: NaN}); // Break
+                }
+                
+            } else {
+                // Default: generate some orthogonal lines
+                for (let m = -2; m <= 2; m += 0.5) {
+                    for (let x = -5; x <= 5; x += 0.2) {
+                        const y = m * x;
+                        data.push({x, y});
+                    }
+                    data.push({x: NaN, y: NaN}); // Break
+                }
             }
+            
             return data;
         }
         
         // Initialize on page load
         window.addEventListener('DOMContentLoaded', function() {
-            initializeChart();
+            initChart();
+            
+            // Add default parameter inputs
+            addParamInput('r', 'r (radius):', '3');
+            params.r = 3;
+            
             calculateOrthogonal();
         });
     </script>
