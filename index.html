@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orthogonal Trajectory Calculator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
@@ -16,26 +15,26 @@
         }
         
         body {
-            background-color: #f5f7fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
-            line-height: 1.6;
-            padding: 20px;
             min-height: 100vh;
+            padding: 20px;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
         }
         
         header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 100%);
             color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
         }
         
         h1 {
@@ -50,109 +49,138 @@
             margin: 0 auto;
         }
         
-        .main-content {
+        .content {
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 30px;
+            padding: 20px;
+            gap: 20px;
         }
         
-        .input-section, .graph-section {
+        .left-panel, .right-panel {
             flex: 1;
             min-width: 300px;
-            background-color: white;
+            background: #f8f9fa;
             border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            padding: 20px;
         }
         
-        .section-title {
-            font-size: 1.4rem;
-            color: #2c3e50;
-            margin-bottom: 20px;
+        .panel-title {
+            font-size: 1.3rem;
+            color: #4A00E0;
+            margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px solid #4A00E0;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #4A00E0;
+            box-shadow: 0 0 0 3px rgba(74, 0, 224, 0.1);
+        }
+        
+        .curve-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .curve-option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .curve-option:hover {
+            border-color: #4A00E0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .curve-option.active {
+            border-color: #4A00E0;
+            background: #4A00E0;
+            color: white;
+        }
+        
+        .curve-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: #4A00E0;
+        }
+        
+        .curve-option.active .curve-icon {
+            color: white;
+        }
+        
+        .curve-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .control-group {
+            margin: 15px 0;
+        }
+        
+        .slider-container {
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        .section-title i {
-            color: #6a11cb;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #444;
-        }
-        
-        select, input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: border 0.3s;
-        }
-        
-        select:focus, input:focus {
-            outline: none;
-            border-color: #6a11cb;
-        }
-        
-        .predefined-examples {
-            background-color: #f9f9ff;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-        
-        .example-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .example-btn {
-            padding: 10px;
-            background-color: #eef2ff;
-            border: 1px solid #d1d9ff;
-            border-radius: 5px;
-            cursor: pointer;
+        .slider-value {
+            min-width: 40px;
             text-align: center;
-            transition: all 0.3s;
+            font-weight: 600;
+            color: #4A00E0;
         }
         
-        .example-btn:hover {
-            background-color: #6a11cb;
-            color: white;
-            transform: translateY(-2px);
+        input[type="range"] {
+            flex: 1;
         }
         
         .btn {
-            display: inline-block;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
+            background: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 100%);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 12px 24px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
             transition: all 0.3s;
-            margin-top: 10px;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
         }
         
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+            box-shadow: 0 5px 15px rgba(74, 0, 224, 0.4);
         }
         
         .btn i {
@@ -160,7 +188,6 @@
         }
         
         .graph-container {
-            width: 100%;
             height: 400px;
             margin-top: 15px;
             position: relative;
@@ -187,103 +214,79 @@
             border-radius: 2px;
         }
         
-        .results {
-            background-color: white;
+        .results-panel {
+            background: #f8f9fa;
             border-radius: 10px;
-            padding: 25px;
+            padding: 20px;
             margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
         
-        .math-display {
-            background-color: #f8f9fa;
+        .equation-display {
+            background: white;
             padding: 15px;
             border-radius: 8px;
             margin: 15px 0;
-            overflow-x: auto;
-            font-size: 1.1rem;
+            border-left: 4px solid #4A00E0;
         }
         
-        .steps {
-            margin-top: 20px;
+        .equation {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            color: #4A00E0;
+            margin: 5px 0;
         }
         
         .step {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px dashed #eee;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid #8E2DE2;
         }
         
         .step-title {
             font-weight: 600;
-            color: #6a11cb;
+            color: #4A00E0;
             margin-bottom: 5px;
         }
         
         .info-box {
-            background-color: #e8f4fd;
-            border-left: 4px solid #2575fc;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
             padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 5px 5px 0;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
         }
         
-        .constant-info {
-            background-color: #fff8e1;
-            border-left: 4px solid #ffc107;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 0 5px 5px 0;
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
             font-size: 0.9rem;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
         }
         
         @media (max-width: 768px) {
-            .main-content {
+            .content {
                 flex-direction: column;
             }
             
             h1 {
                 font-size: 2rem;
             }
+            
+            .curve-options {
+                grid-template-columns: 1fr;
+            }
         }
         
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #666;
-            font-size: 0.9rem;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-        
-        .grid-controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .control-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .control-group label {
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-        
-        .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .slider-value {
-            min-width: 40px;
-            text-align: center;
-            font-weight: 600;
-            color: #6a11cb;
+        .formula {
+            font-family: 'Courier New', monospace;
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #4A00E0;
         }
     </style>
 </head>
@@ -291,211 +294,157 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-project-diagram"></i> Orthogonal Trajectory Calculator</h1>
-            <p class="subtitle">Visualize curves and their orthogonal trajectories. Enter a curve equation or select from predefined examples to calculate its orthogonal family.</p>
+            <p class="subtitle">Visualize curves and their perpendicular families. Simply select a curve type to see its orthogonal trajectories.</p>
         </header>
         
-        <div class="main-content">
-            <div class="input-section">
-                <h2 class="section-title"><i class="fas fa-sliders-h"></i> Input Parameters</h2>
+        <div class="content">
+            <div class="left-panel">
+                <h2 class="panel-title"><i class="fas fa-sliders-h"></i> Curve Selection</h2>
                 
                 <div class="form-group">
-                    <label for="curveType"><i class="fas fa-chart-line"></i> Curve Type</label>
-                    <select id="curveType">
-                        <option value="explicit">Explicit: y = f(x)</option>
-                        <option value="implicit">Implicit: f(x, y) = 0</option>
-                        <option value="parametric">Parametric: x(t), y(t)</option>
-                    </select>
+                    <label>Select Curve Family</label>
+                    <div class="curve-options" id="curveOptions">
+                        <div class="curve-option" data-curve="circle">
+                            <div class="curve-icon"><i class="fas fa-circle"></i></div>
+                            <div class="curve-name">Circle Family</div>
+                        </div>
+                        <div class="curve-option" data-curve="parabola">
+                            <div class="curve-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="curve-name">Parabola Family</div>
+                        </div>
+                        <div class="curve-option" data-curve="ellipse">
+                            <div class="curve-icon"><i class="fas fa-egg"></i></div>
+                            <div class="curve-name">Ellipse Family</div>
+                        </div>
+                        <div class="curve-option" data-curve="hyperbola">
+                            <div class="curve-icon"><i class="fas fa-infinity"></i></div>
+                            <div class="curve-name">Hyperbola Family</div>
+                        </div>
+                        <div class="curve-option" data-curve="line">
+                            <div class="curve-icon"><i class="fas fa-slash"></i></div>
+                            <div class="curve-name">Line Family</div>
+                        </div>
+                        <div class="curve-option" data-curve="exponential">
+                            <div class="curve-icon"><i class="fas fa-chart-curve"></i></div>
+                            <div class="curve-name">Exponential Family</div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="form-group" id="equationGroup">
-                    <label for="equation"><i class="fas fa-square-root-alt"></i> Curve Equation</label>
-                    <input type="text" id="equation" placeholder="Enter equation, e.g., x^2 + y^2 or y = x^2">
-                    <div class="predefined-examples">
-                        <p><strong>Predefined Examples (click to load):</strong></p>
-                        <div class="example-list">
-                            <div class="example-btn" data-example="y = x^2" data-constant="">Parabola: y = x²</div>
-                            <div class="example-btn" data-example="x^2 + y^2 = r^2" data-constant="r=3">Circle: x² + y² = r²</div>
-                            <div class="example-btn" data-example="y = 1/x" data-constant="">Hyperbola: y = 1/x</div>
-                            <div class="example-btn" data-example="y = sin(x)" data-constant="">Sine: y = sin(x)</div>
-                            <div class="example-btn" data-example="x^2/4 + y^2/9 = 1" data-constant="">Ellipse: x²/4 + y²/9 = 1</div>
-                            <div class="example-btn" data-example="y = e^x" data-constant="">Exponential: y = eˣ</div>
-                            <div class="example-btn" data-example="y = ln(x)" data-constant="">Logarithm: y = ln(x)</div>
-                            <div class="example-btn" data-example="y = x^3" data-constant="">Cubic: y = x³</div>
-                        </div>
+                <div class="form-group" id="curveSettings">
+                    <label for="curveParam">Curve Parameter (C)</label>
+                    <input type="range" id="curveParam" min="1" max="10" step="1" value="3">
+                    <div class="slider-container">
+                        <span class="slider-value" id="paramValue">C = 3</span>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="constant"><i class="fas fa-hashtag"></i> Constant Value</label>
-                    <input type="text" id="constant" placeholder="e.g., r=3, a=2, b=1">
-                    <div class="constant-info" id="constantInfo">
-                        <strong>Tip:</strong> For circles use r=value, for ellipses use a=value,b=value
+                    <label for="numCurves">Number of Curves</label>
+                    <input type="range" id="numCurves" min="1" max="8" step="1" value="5">
+                    <div class="slider-container">
+                        <span class="slider-value" id="curvesValue">5 curves</span>
                     </div>
                 </div>
                 
-                <div class="grid-controls">
-                    <div class="control-group">
-                        <label for="xRange">X-axis Range</label>
-                        <div class="slider-container">
-                            <span class="slider-value" id="xMinValue">-5</span>
-                            <input type="range" id="xRange" min="-10" max="10" step="0.5" value="-5,5" class="slider">
-                            <span class="slider-value" id="xMaxValue">5</span>
-                        </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <label for="yRange">Y-axis Range</label>
-                        <div class="slider-container">
-                            <span class="slider-value" id="yMinValue">-5</span>
-                            <input type="range" id="yRange" min="-10" max="10" step="0.5" value="-5,5" class="slider">
-                            <span class="slider-value" id="yMaxValue">5</span>
-                        </div>
+                <div class="form-group">
+                    <label for="numTrajectories">Number of Trajectories</label>
+                    <input type="range" id="numTrajectories" min="1" max="10" step="1" value="6">
+                    <div class="slider-container">
+                        <span class="slider-value" id="trajectoriesValue">6 trajectories</span>
                     </div>
                 </div>
                 
                 <button class="btn" id="calculateBtn">
-                    <i class="fas fa-calculator"></i> Calculate Orthogonal Trajectory
+                    <i class="fas fa-redo"></i> Regenerate Graph
                 </button>
                 
                 <div class="info-box">
-                    <p><strong>How it works:</strong> For a curve family F(x, y, C) = 0, orthogonal trajectories satisfy the differential equation obtained by replacing dy/dx with -dx/dy. For explicit curves y = f(x), find f'(x) then orthogonal slope = -1/f'(x).</p>
+                    <p><strong>How it works:</strong> For a curve family <span class="formula">F(x,y,C)=0</span>, orthogonal trajectories are curves that intersect the family at right angles. They satisfy <span class="formula">dy/dx = -1/(dy/dx of original)</span>.</p>
                 </div>
             </div>
             
-            <div class="graph-section">
-                <h2 class="section-title"><i class="fas fa-chart-area"></i> Visualization</h2>
+            <div class="right-panel">
+                <h2 class="panel-title"><i class="fas fa-chart-area"></i> Visualization</h2>
                 <div class="graph-container">
                     <canvas id="trajectoryChart"></canvas>
                 </div>
                 
                 <div class="legend">
                     <div class="legend-item">
-                        <div class="legend-color" style="background-color: #6a11cb;"></div>
-                        <span>Original Curve</span>
+                        <div class="legend-color" style="background-color: #4A00E0;"></div>
+                        <span>Original Family</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background-color: #2575fc;"></div>
+                        <div class="legend-color" style="background-color: #FF5722;"></div>
                         <span>Orthogonal Trajectories</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background-color: #ff4757;"></div>
-                        <span>Intersection Points</span>
                     </div>
                 </div>
                 
-                <div class="grid-controls">
-                    <div class="control-group">
-                        <label for="trajectoryCount">Number of Trajectories</label>
-                        <div class="slider-container">
-                            <span class="slider-value" id="trajectoryCountValue">5</span>
-                            <input type="range" id="trajectoryCount" min="1" max="20" step="1" value="5" class="slider">
-                        </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <label for="trajectoryLength">Trajectory Length</label>
-                        <div class="slider-container">
-                            <span class="slider-value" id="trajectoryLengthValue">2</span>
-                            <input type="range" id="trajectoryLength" min="0.5" max="5" step="0.1" value="2" class="slider">
-                        </div>
-                    </div>
+                <div class="equation-display">
+                    <div class="equation" id="originalEq">Family: <span id="originalEqText">x² + y² = C</span></div>
+                    <div class="equation" id="orthogonalEq">Orthogonal: <span id="orthogonalEqText">y = mx</span></div>
                 </div>
             </div>
         </div>
         
-        <div class="results">
-            <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Results & Calculation Steps</h2>
+        <div class="results-panel">
+            <h2 class="panel-title"><i class="fas fa-calculator"></i> Calculation Details</h2>
             
-            <div class="math-display">
-                <div id="originalEquation">Original curve: <span class="math-placeholder">Enter an equation to see it here</span></div>
-                <div id="orthogonalEquation">Orthogonal trajectory: <span class="math-placeholder">Calculation will appear here</span></div>
-                <div id="constantsInfo">Constants: <span class="math-placeholder">No constants defined</span></div>
+            <div class="info-box">
+                <p><strong>Selected Curve:</strong> <span id="selectedCurveName">Circle Family</span></p>
+                <p><strong>Parameter Value:</strong> C = <span id="currentParam">3</span></p>
             </div>
             
-            <div class="steps" id="calculationSteps">
-                <div class="step">
-                    <div class="step-title">Step 1: Input Interpretation</div>
-                    <p>Waiting for input...</p>
-                </div>
-                <div class="step">
-                    <div class="step-title">Step 2: Derivative Calculation</div>
-                    <p>The derivative will be calculated here.</p>
-                </div>
-                <div class="step">
-                    <div class="step-title">Step 3: Orthogonal Condition</div>
-                    <p>The orthogonal condition will be applied here.</p>
-                </div>
-                <div class="step">
-                    <div class="step-title">Step 4: Solution</div>
-                    <p>The orthogonal trajectory equation will be shown here.</p>
-                </div>
+            <div class="step">
+                <div class="step-title">Step 1: Original Curve Family</div>
+                <p>The family of curves is given by: <span id="step1Eq" class="formula">x² + y² = C</span></p>
+                <p>This represents concentric circles centered at the origin with radius √C.</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">Step 2: Derivative Calculation</div>
+                <p>Using implicit differentiation: <span id="step2Deriv" class="formula">2x + 2y(dy/dx) = 0</span></p>
+                <p>Solving for dy/dx: <span id="step2Slope" class="formula">dy/dx = -x/y</span></p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">Step 3: Orthogonal Condition</div>
+                <p>For orthogonal trajectories, slope₁ × slope₂ = -1</p>
+                <p>If original slope = -x/y, then orthogonal slope = <span id="step3Slope" class="formula">y/x</span></p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">Step 4: Solution</div>
+                <p>Solving dy/dx = y/x gives: <span id="step4Solution" class="formula">y = mx</span></p>
+                <p>This represents straight lines through the origin (radial lines).</p>
             </div>
         </div>
         
         <div class="footer">
-            <p>Orthogonal Trajectory Calculator | Created with HTML, CSS, JavaScript, and Chart.js</p>
-            <p>Orthogonal trajectories are curves that intersect a given family of curves at right angles (90°).</p>
+            <p>Orthogonal Trajectory Calculator | Family of curves intersect at right angles | Created with HTML, CSS, JavaScript</p>
         </div>
     </div>
 
     <script>
-        // DOM elements
-        const curveTypeSelect = document.getElementById('curveType');
-        const equationInput = document.getElementById('equation');
-        const constantInput = document.getElementById('constant');
-        const constantInfo = document.getElementById('constantInfo');
+        // DOM Elements
+        const curveOptions = document.querySelectorAll('.curve-option');
+        const curveParamSlider = document.getElementById('curveParam');
+        const numCurvesSlider = document.getElementById('numCurves');
+        const numTrajectoriesSlider = document.getElementById('numTrajectories');
+        const paramValue = document.getElementById('paramValue');
+        const curvesValue = document.getElementById('curvesValue');
+        const trajectoriesValue = document.getElementById('trajectoriesValue');
         const calculateBtn = document.getElementById('calculateBtn');
-        const originalEquationDiv = document.getElementById('originalEquation');
-        const orthogonalEquationDiv = document.getElementById('orthogonalEquation');
-        const constantsInfoDiv = document.getElementById('constantsInfo');
-        const calculationStepsDiv = document.getElementById('calculationSteps');
-        const exampleButtons = document.querySelectorAll('.example-btn');
-        
-        // Graph control elements
-        const xRangeSlider = document.getElementById('xRange');
-        const yRangeSlider = document.getElementById('yRange');
-        const trajectoryCountSlider = document.getElementById('trajectoryCount');
-        const trajectoryLengthSlider = document.getElementById('trajectoryLength');
-        const xMinValue = document.getElementById('xMinValue');
-        const xMaxValue = document.getElementById('xMaxValue');
-        const yMinValue = document.getElementById('yMinValue');
-        const yMaxValue = document.getElementById('yMaxValue');
-        const trajectoryCountValue = document.getElementById('trajectoryCountValue');
-        const trajectoryLengthValue = document.getElementById('trajectoryLengthValue');
-        
-        // Initialize slider values
-        let xRange = [-5, 5];
-        let yRange = [-5, 5];
-        let trajectoryCount = 5;
-        let trajectoryLength = 2;
-        
-        // Update slider display values
-        xRangeSlider.addEventListener('input', function() {
-            xRange = parseSliderValue(this.value);
-            xMinValue.textContent = xRange[0];
-            xMaxValue.textContent = xRange[1];
-        });
-        
-        yRangeSlider.addEventListener('input', function() {
-            yRange = parseSliderValue(this.value);
-            yMinValue.textContent = yRange[0];
-            yMaxValue.textContent = yRange[1];
-        });
-        
-        trajectoryCountSlider.addEventListener('input', function() {
-            trajectoryCount = parseInt(this.value);
-            trajectoryCountValue.textContent = trajectoryCount;
-        });
-        
-        trajectoryLengthSlider.addEventListener('input', function() {
-            trajectoryLength = parseFloat(this.value);
-            trajectoryLengthValue.textContent = trajectoryLength;
-        });
-        
-        function parseSliderValue(value) {
-            const parts = value.split(',').map(Number);
-            return parts.length === 2 ? parts : [parseFloat(value), parseFloat(value)];
-        }
+        const originalEqText = document.getElementById('originalEqText');
+        const orthogonalEqText = document.getElementById('orthogonalEqText');
+        const selectedCurveName = document.getElementById('selectedCurveName');
+        const currentParam = document.getElementById('currentParam');
+        const step1Eq = document.getElementById('step1Eq');
+        const step2Deriv = document.getElementById('step2Deriv');
+        const step2Slope = document.getElementById('step2Slope');
+        const step3Slope = document.getElementById('step3Slope');
+        const step4Solution = document.getElementById('step4Solution');
         
         // Chart initialization
         const ctx = document.getElementById('trajectoryChart').getContext('2d');
@@ -504,36 +453,26 @@
             data: {
                 datasets: [
                     {
-                        label: 'Original Curve',
+                        label: 'Original Family',
                         data: [],
-                        backgroundColor: '#6a11cb',
-                        borderColor: '#6a11cb',
-                        pointRadius: 0,
-                        borderWidth: 3,
-                        showLine: true,
-                        fill: false,
-                        tension: 0.1
-                    },
-                    {
-                        label: 'Orthogonal Trajectories',
-                        data: [],
-                        backgroundColor: '#2575fc',
-                        borderColor: '#2575fc',
+                        backgroundColor: '#4A00E0',
+                        borderColor: '#4A00E0',
                         pointRadius: 0,
                         borderWidth: 2,
                         showLine: true,
                         fill: false,
-                        tension: 0.1
+                        tension: 0
                     },
                     {
-                        label: 'Intersection Points',
+                        label: 'Orthogonal Trajectories',
                         data: [],
-                        backgroundColor: '#ff4757',
-                        borderColor: '#ff4757',
-                        pointRadius: 3,
-                        borderWidth: 1,
-                        showLine: false,
-                        fill: true
+                        backgroundColor: '#FF5722',
+                        borderColor: '#FF5722',
+                        pointRadius: 0,
+                        borderWidth: 2,
+                        showLine: true,
+                        fill: false,
+                        tension: 0
                     }
                 ]
             },
@@ -547,433 +486,445 @@
                         title: {
                             display: true,
                             text: 'x-axis',
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            }
+                            font: { size: 14, weight: 'bold' }
                         },
-                        grid: {
-                            color: 'rgba(0,0,0,0.1)'
-                        },
-                        ticks: {
-                            font: {
-                                size: 12
-                            }
-                        }
+                        grid: { color: 'rgba(0,0,0,0.1)' },
+                        min: -10,
+                        max: 10
                     },
                     y: {
                         title: {
                             display: true,
                             text: 'y-axis',
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            }
+                            font: { size: 14, weight: 'bold' }
                         },
-                        grid: {
-                            color: 'rgba(0,0,0,0.1)'
-                        },
-                        ticks: {
-                            font: {
-                                size: 12
-                            }
-                        }
+                        grid: { color: 'rgba(0,0,0,0.1)' },
+                        min: -10,
+                        max: 10
                     }
                 },
                 plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        mode: 'nearest',
-                        intersect: false,
-                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                        titleFont: {
-                            size: 14
-                        },
-                        bodyFont: {
-                            size: 13
-                        }
-                    }
-                },
-                elements: {
-                    line: {
-                        tension: 0.1
-                    }
+                    legend: { display: false },
+                    tooltip: { mode: 'nearest', intersect: false }
                 }
             }
         });
         
-        // Update constant info based on equation type
-        equationInput.addEventListener('input', function() {
-            const eq = this.value;
-            if (eq.includes('x^2 + y^2 = r^2')) {
-                constantInfo.innerHTML = '<strong>Circle constant:</strong> Enter r=value (e.g., r=3 for radius 3)';
-            } else if (eq.includes('x^2/a^2') || eq.includes('x^2/')) {
-                constantInfo.innerHTML = '<strong>Ellipse constants:</strong> Enter a=value,b=value (e.g., a=2,b=3)';
-            } else if (eq.includes('y = kx')) {
-                constantInfo.innerHTML = '<strong>Line constant:</strong> Enter k=value for slope';
-            } else {
-                constantInfo.innerHTML = '<strong>Tip:</strong> For circles use r=value, for ellipses use a=value,b=value';
-            }
-        });
+        // Current selected curve
+        let selectedCurve = 'circle';
         
-        // Example button click handlers
-        exampleButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const example = this.getAttribute('data-example');
-                const constant = this.getAttribute('data-constant');
+        // Initialize curve options
+        curveOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                curveOptions.forEach(opt => opt.classList.remove('active'));
                 
-                equationInput.value = example;
-                constantInput.value = constant;
+                // Add active class to clicked option
+                this.classList.add('active');
                 
-                // Update constant info
-                equationInput.dispatchEvent(new Event('input'));
+                // Update selected curve
+                selectedCurve = this.dataset.curve;
                 
-                // Trigger calculation
-                calculateOrthogonalTrajectory();
+                // Update UI based on curve type
+                updateCurveUI(selectedCurve);
+                
+                // Generate new graph
+                generateGraph();
             });
         });
         
-        // Calculate button click handler
-        calculateBtn.addEventListener('click', calculateOrthogonalTrajectory);
+        // Set initial active curve
+        document.querySelector('.curve-option[data-curve="circle"]').classList.add('active');
         
-        // Main calculation function
-        function calculateOrthogonalTrajectory() {
-            const curveType = curveTypeSelect.value;
-            const equation = equationInput.value.trim();
-            const constantStr = constantInput.value.trim();
+        // Update slider displays
+        curveParamSlider.addEventListener('input', function() {
+            paramValue.textContent = `C = ${this.value}`;
+            currentParam.textContent = this.value;
+            generateGraph();
+        });
+        
+        numCurvesSlider.addEventListener('input', function() {
+            curvesValue.textContent = `${this.value} curves`;
+            generateGraph();
+        });
+        
+        numTrajectoriesSlider.addEventListener('input', function() {
+            trajectoriesValue.textContent = `${this.value} trajectories`;
+            generateGraph();
+        });
+        
+        // Calculate button
+        calculateBtn.addEventListener('click', generateGraph);
+        
+        // Update UI based on curve type
+        function updateCurveUI(curveType) {
+            const paramSlider = curveParamSlider;
             
-            if (!equation) {
-                alert('Please enter a curve equation or select an example.');
-                return;
-            }
-            
-            // Parse constants
-            const constants = parseConstants(constantStr);
-            
-            // Clear previous results
-            clearResults();
-            
-            // Process based on curve type
-            let originalFunc, derivativeFunc, orthogonalEq, dataPoints, intersectionPoints;
-            
-            try {
-                switch(curveType) {
-                    case 'explicit':
-                        // For y = f(x) format
-                        const explicitResult = processExplicitEquation(equation, constants);
-                        originalFunc = explicitResult.func;
-                        derivativeFunc = explicitResult.derivative;
-                        orthogonalEq = explicitResult.orthogonal;
-                        dataPoints = generateExplicitDataPoints(originalFunc, xRange[0], xRange[1], 0.1);
-                        break;
-                        
-                    case 'implicit':
-                        // For f(x, y) = 0 format
-                        const implicitResult = processImplicitEquation(equation, constants);
-                        originalFunc = implicitResult.func;
-                        derivativeFunc = implicitResult.derivative;
-                        orthogonalEq = implicitResult.orthogonal;
-                        dataPoints = generateImplicitDataPoints(equation, constants, xRange, yRange);
-                        break;
-                        
-                    case 'parametric':
-                        // For parametric curves
-                        const parametricResult = processParametricEquation(equation, constants);
-                        originalFunc = parametricResult.func;
-                        derivativeFunc = parametricResult.derivative;
-                        orthogonalEq = parametricResult.orthogonal;
-                        dataPoints = generateParametricDataPoints(originalFunc, xRange[0], xRange[1]);
-                        break;
-                }
-                
-                if (!dataPoints || dataPoints.length === 0) {
-                    throw new Error('Could not generate data points for the given equation.');
-                }
-                
-                // Update the chart with original curve data
-                updateChart(dataPoints, 'original');
-                
-                // Generate and plot orthogonal trajectories
-                if (derivativeFunc) {
-                    const orthogonalPoints = generateOrthogonalTrajectories(dataPoints, derivativeFunc, trajectoryCount, trajectoryLength);
-                    updateChart(orthogonalPoints.trajectories, 'orthogonal');
-                    updateChart(orthogonalPoints.intersections, 'intersection');
-                    intersectionPoints = orthogonalPoints.intersections;
-                }
-                
-                // Update results display
-                updateResults(equation, curveType, constants, orthogonalEq);
-                
-                // Update calculation steps
-                updateCalculationSteps(equation, curveType, constants, orthogonalEq, intersectionPoints);
-                
-            } catch(error) {
-                console.error('Error in calculation:', error);
-                alert('Error processing the equation. Please check your input or try a different example.\n\nError: ' + error.message);
+            switch(curveType) {
+                case 'circle':
+                    selectedCurveName.textContent = 'Circle Family';
+                    originalEqText.textContent = 'x² + y² = C';
+                    orthogonalEqText.textContent = 'y = mx';
+                    step1Eq.textContent = 'x² + y² = C';
+                    step2Deriv.textContent = '2x + 2y(dy/dx) = 0';
+                    step2Slope.textContent = 'dy/dx = -x/y';
+                    step3Slope.textContent = 'y/x';
+                    step4Solution.textContent = 'y = mx';
+                    paramSlider.min = 1;
+                    paramSlider.max = 8;
+                    paramSlider.value = 3;
+                    paramValue.textContent = 'C = 3';
+                    currentParam.textContent = '3';
+                    break;
+                    
+                case 'parabola':
+                    selectedCurveName.textContent = 'Parabola Family';
+                    originalEqText.textContent = 'y = Cx²';
+                    orthogonalEqText.textContent = 'y² = -½ln|x| + K';
+                    step1Eq.textContent = 'y = Cx²';
+                    step2Deriv.textContent = 'dy/dx = 2Cx';
+                    step2Slope.textContent = 'dy/dx = 2Cx';
+                    step3Slope.textContent = '-1/(2Cx)';
+                    step4Solution.textContent = 'y² = -½ln|x| + K';
+                    paramSlider.min = 1;
+                    paramSlider.max = 5;
+                    paramSlider.value = 2;
+                    paramValue.textContent = 'C = 2';
+                    currentParam.textContent = '2';
+                    break;
+                    
+                case 'ellipse':
+                    selectedCurveName.textContent = 'Ellipse Family';
+                    originalEqText.textContent = 'x²/a² + y²/b² = 1';
+                    orthogonalEqText.textContent = 'y = Kx^{±(b²/a²)}';
+                    step1Eq.textContent = 'x²/a² + y²/b² = 1';
+                    step2Deriv.textContent = '2x/a² + (2y/b²)(dy/dx) = 0';
+                    step2Slope.textContent = 'dy/dx = -(b²x)/(a²y)';
+                    step3Slope.textContent = '(a²y)/(b²x)';
+                    step4Solution.textContent = 'y = Kx^{±(b²/a²)}';
+                    paramSlider.min = 1;
+                    paramSlider.max = 5;
+                    paramSlider.value = 3;
+                    paramValue.textContent = 'a/b = 3';
+                    currentParam.textContent = '3';
+                    break;
+                    
+                case 'hyperbola':
+                    selectedCurveName.textContent = 'Hyperbola Family';
+                    originalEqText.textContent = 'xy = C';
+                    orthogonalEqText.textContent = 'x² - y² = K';
+                    step1Eq.textContent = 'xy = C';
+                    step2Deriv.textContent = 'y + x(dy/dx) = 0';
+                    step2Slope.textContent = 'dy/dx = -y/x';
+                    step3Slope.textContent = 'x/y';
+                    step4Solution.textContent = 'x² - y² = K';
+                    paramSlider.min = 1;
+                    paramSlider.max = 5;
+                    paramSlider.value = 2;
+                    paramValue.textContent = 'C = 2';
+                    currentParam.textContent = '2';
+                    break;
+                    
+                case 'line':
+                    selectedCurveName.textContent = 'Line Family';
+                    originalEqText.textContent = 'y = Cx';
+                    orthogonalEqText.textContent = 'x² + y² = K';
+                    step1Eq.textContent = 'y = Cx';
+                    step2Deriv.textContent = 'dy/dx = C';
+                    step2Slope.textContent = 'dy/dx = C';
+                    step3Slope.textContent = '-1/C';
+                    step4Solution.textContent = 'x² + y² = K';
+                    paramSlider.min = 1;
+                    paramSlider.max = 5;
+                    paramSlider.value = 2;
+                    paramValue.textContent = 'C = 2';
+                    currentParam.textContent = '2';
+                    break;
+                    
+                case 'exponential':
+                    selectedCurveName.textContent = 'Exponential Family';
+                    originalEqText.textContent = 'y = Ce^x';
+                    orthogonalEqText.textContent = 'y = -e^{-x} + K';
+                    step1Eq.textContent = 'y = Ce^x';
+                    step2Deriv.textContent = 'dy/dx = Ce^x';
+                    step2Slope.textContent = 'dy/dx = y';
+                    step3Slope.textContent = '-1/y';
+                    step4Solution.textContent = 'y = -e^{-x} + K';
+                    paramSlider.min = 1;
+                    paramSlider.max = 5;
+                    paramSlider.value = 2;
+                    paramValue.textContent = 'C = 2';
+                    currentParam.textContent = '2';
+                    break;
             }
         }
         
-        // Parse constants from string like "r=3,a=2,b=1"
-        function parseConstants(constantStr) {
-            const constants = {};
-            if (!constantStr) return constants;
+        // Generate graph based on selected curve
+        function generateGraph() {
+            const C = parseFloat(curveParamSlider.value);
+            const numCurves = parseInt(numCurvesSlider.value);
+            const numTrajectories = parseInt(numTrajectoriesSlider.value);
             
-            const pairs = constantStr.split(',');
-            pairs.forEach(pair => {
-                const [key, value] = pair.split('=').map(s => s.trim());
-                if (key && value) {
-                    constants[key] = parseFloat(value);
-                }
-            });
+            let originalData = [];
+            let trajectoryData = [];
             
-            return constants;
-        }
-        
-        // Process explicit equation y = f(x)
-        function processExplicitEquation(equation, constants) {
-            let expr = equation;
-            
-            // Extract right side if equation has equals sign
-            if (expr.includes('=')) {
-                expr = expr.split('=')[1].trim();
-            }
-            
-            // Replace common math functions and operators
-            expr = expr.replace(/\^/g, '**');
-            expr = expr.replace(/sin\(/g, 'Math.sin(');
-            expr = expr.replace(/cos\(/g, 'Math.cos(');
-            expr = expr.replace(/tan\(/g, 'Math.tan(');
-            expr = expr.replace(/exp\(/g, 'Math.exp(');
-            expr = expr.replace(/ln\(/g, 'Math.log(');
-            expr = expr.replace(/log\(/g, 'Math.log10(');
-            expr = expr.replace(/sqrt\(/g, 'Math.sqrt(');
-            expr = expr.replace(/pi/g, 'Math.PI');
-            expr = expr.replace(/e/g, 'Math.E');
-            
-            // Substitute constants
-            Object.keys(constants).forEach(key => {
-                const regex = new RegExp('\\b' + key + '\\b', 'g');
-                expr = expr.replace(regex, constants[key]);
-            });
-            
-            // Create the function
-            const func = function(x) {
-                try {
-                    return eval(expr);
-                } catch(e) {
-                    return NaN;
-                }
-            };
-            
-            // Numerical derivative
-            const derivative = function(x) {
-                const h = 0.0001;
-                const y1 = func(x);
-                const y2 = func(x + h);
-                if (isNaN(y1) || isNaN(y2)) return NaN;
-                return (y2 - y1) / h;
-            };
-            
-            // Determine orthogonal equation
-            let orthogonalEq = '';
-            if (equation.includes('y = x^2')) {
-                orthogonalEq = 'y = -\\frac{1}{2}\\ln|x| + C';
-            } else if (equation.includes('y = e^x') || equation.includes('y = exp(x)')) {
-                orthogonalEq = 'y = -e^{-x} + C';
-            } else if (equation.includes('y = sin(x)')) {
-                orthogonalEq = 'y = \\ln|\\sec(x) + \\tan(x)| + C';
-            } else if (equation.includes('y = 1/x')) {
-                orthogonalEq = 'x^2 - y^2 = C';
-            } else if (equation.includes('y = ln(x)')) {
-                orthogonalEq = 'y = -\\frac{1}{2}x^2 + C';
-            } else {
-                orthogonalEq = '\\frac{dy}{dx} = -\\frac{1}{f\'(x)}';
-            }
-            
-            return { func, derivative, orthogonal: orthogonalEq };
-        }
-        
-        // Process implicit equation f(x, y) = 0
-        function processImplicitEquation(equation, constants) {
-            let orthogonalEq = '';
-            let func, derivative;
-            
-            // For circles: x^2 + y^2 = r^2
-            if (equation.includes('x^2 + y^2 = r^2')) {
-                const r = constants.r || 3;
-                func = function(theta) {
-                    return {
-                        x: r * Math.cos(theta),
-                        y: r * Math.sin(theta)
-                    };
-                };
-                derivative = function(x, y) {
-                    return -x / y;
-                };
-                orthogonalEq = 'y = Cx \\quad \\text{(lines through origin)}';
-            }
-            // For ellipses: x^2/a^2 + y^2/b^2 = 1
-            else if (equation.includes('x^2/') && equation.includes('y^2/')) {
-                const aMatch = equation.match(/x\^2\/([0-9.]+)/);
-                const bMatch = equation.match(/y\^2\/([0-9.]+)/);
-                const a = constants.a || (aMatch ? Math.sqrt(parseFloat(aMatch[1])) : 2);
-                const b = constants.b || (bMatch ? Math.sqrt(parseFloat(bMatch[1])) : 3);
-                
-                func = function(theta) {
-                    return {
-                        x: a * Math.cos(theta),
-                        y: b * Math.sin(theta)
-                    };
-                };
-                derivative = function(x, y) {
-                    return -(b*b * x) / (a*a * y);
-                };
-                orthogonalEq = 'y = Cx^{\\pm' + (b/a).toFixed(2) + '}';
-            }
-            // General implicit
-            else {
-                func = null;
-                derivative = function(x, y) {
-                    // Numerical partial derivatives for implicit function
-                    const h = 0.0001;
-                    try {
-                        // This is a simplified approach - in practice would need to parse the equation
-                        return -x / y; // Default for symmetric equations
-                    } catch(e) {
-                        return NaN;
+            switch(selectedCurve) {
+                case 'circle':
+                    // Generate concentric circles
+                    for (let i = 1; i <= numCurves; i++) {
+                        const radius = C + i - 1;
+                        const circlePoints = generateCircle(radius, 50);
+                        originalData = originalData.concat(circlePoints);
+                        originalData.push({x: NaN, y: NaN}); // Break between circles
                     }
-                };
-                orthogonalEq = '\\text{Solve } F_x dx + F_y dy = 0 \\text{ with } \\frac{dy}{dx} = -\\frac{F_x}{F_y}';
+                    
+                    // Generate radial lines (orthogonal trajectories for circles)
+                    for (let i = 0; i < numTrajectories; i++) {
+                        const angle = (i * Math.PI) / numTrajectories;
+                        const linePoints = generateLineThroughOrigin(angle, 8);
+                        trajectoryData = trajectoryData.concat(linePoints);
+                        trajectoryData.push({x: NaN, y: NaN}); // Break between lines
+                    }
+                    break;
+                    
+                case 'parabola':
+                    // Generate parabolas
+                    for (let i = 1; i <= numCurves; i++) {
+                        const param = C * i / 2;
+                        const parabolaPoints = generateParabola(param, -4, 4, 0.2);
+                        originalData = originalData.concat(parabolaPoints);
+                        originalData.push({x: NaN, y: NaN});
+                    }
+                    
+                    // Generate orthogonal trajectories for parabolas
+                    for (let i = 0; i < numTrajectories; i++) {
+                        const offset = -4 + (i * 8) / numTrajectories;
+                        const orthoPoints = generateParabolaOrthogonal(offset, -4, 4, 0.2);
+                        trajectoryData = trajectoryData.concat(orthoPoints);
+                        trajectoryData.push({x: NaN, y: NaN});
+                    }
+                    break;
+                    
+                case 'ellipse':
+                    // Generate ellipses
+                    for (let i = 1; i <= numCurves; i++) {
+                        const a = C + i - 1;
+                        const b = 2 + i - 1;
+                        const ellipsePoints = generateEllipse(a, b, 50);
+                        originalData = originalData.concat(ellipsePoints);
+                        originalData.push({x: NaN, y: NaN});
+                    }
+                    
+                    // Generate orthogonal trajectories for ellipses
+                    for (let i = 0; i < numTrajectories; i++) {
+                        const angle = (i * Math.PI) / numTrajectories;
+                        const orthoPoints = generateEllipseOrthogonal(angle, C, 8);
+                        trajectoryData = trajectoryData.concat(orthoPoints);
+                        trajectoryData.push({x: NaN, y: NaN});
+                    }
+                    break;
+                    
+                case 'hyperbola':
+                    // Generate hyperbolas
+                    for (let i = 1; i <= numCurves; i++) {
+                        const param = C * i;
+                        const hyperbolaPoints = generateHyperbola(param, -4, 4, 0.2);
+                        originalData = originalData.concat(hyperbolaPoints);
+                        originalData.push({x: NaN, y: NaN});
+                    }
+                    
+                    // Generate orthogonal trajectories (rotated hyperbolas)
+                    for (let i = 0; i < numTrajectories; i++) {
+                        const offset = i * 2;
+                        const orthoPoints = generateHyperbolaOrthogonal(offset, -4, 4, 0.2);
+                        trajectoryData = trajectoryData.concat(orthoPoints);
+                        trajectoryData.push({x: NaN, y: NaN});
+                    }
+                    break;
+                    
+                case 'line':
+                    // Generate lines through origin
+                    for (let i = 0; i < numCurves; i++) {
+                        const slope = C * (i - numCurves/2) / 2;
+                        const linePoints = generateLine(slope, -8, 8, 0.5);
+                        originalData = originalData.concat(linePoints);
+                        originalData.push({x: NaN, y: NaN});
+                    }
+                    
+                    // Generate circles (orthogonal to lines)
+                    for (let i = 1; i <= numTrajectories; i++) {
+                        const radius = 2 + i;
+                        const circlePoints = generateCircle(radius, 30);
+                        trajectoryData = trajectoryData.concat(circlePoints);
+                        trajectoryData.push({x: NaN, y: NaN});
+                    }
+                    break;
+                    
+                case 'exponential':
+                    // Generate exponential curves
+                    for (let i = 1; i <= numCurves; i++) {
+                        const param = C * i / 2;
+                        const expPoints = generateExponential(param, -3, 3, 0.2);
+                        originalData = originalData.concat(expPoints);
+                        originalData.push({x: NaN, y: NaN});
+                    }
+                    
+                    // Generate orthogonal trajectories
+                    for (let i = 0; i < numTrajectories; i++) {
+                        const offset = -2 + (i * 4) / numTrajectories;
+                        const orthoPoints = generateExponentialOrthogonal(offset, -3, 3, 0.2);
+                        trajectoryData = trajectoryData.concat(orthoPoints);
+                        trajectoryData.push({x: NaN, y: NaN});
+                    }
+                    break;
             }
             
-            return { func, derivative, orthogonal: orthogonalEq };
+            // Update chart
+            trajectoryChart.data.datasets[0].data = originalData;
+            trajectoryChart.data.datasets[1].data = trajectoryData;
+            trajectoryChart.update();
         }
         
-        // Process parametric equation
-        function processParametricEquation(equation, constants) {
-            // Default parametric: circle if no specific equation given
-            let func, derivative;
-            
-            if (equation.includes('x = cos(t), y = sin(t)') || equation.includes('x=cost,y=sint')) {
-                func = function(t) {
-                    return {
-                        x: Math.cos(t),
-                        y: Math.sin(t)
-                    };
-                };
-                derivative = function(t) {
-                    return -Math.cos(t) / Math.sin(t);
-                };
-            } else {
-                // Generic parametric
-                func = function(t) {
-                    return {
-                        x: Math.cos(t),
-                        y: Math.sin(2*t)
-                    };
-                };
-                derivative = function(t) {
-                    const h = 0.0001;
-                    const p1 = func(t);
-                    const p2 = func(t + h);
-                    return (p2.y - p1.y) / (p2.x - p1.x);
-                };
+        // Helper functions to generate curve points
+        
+        function generateCircle(radius, points) {
+            const circlePoints = [];
+            for (let i = 0; i <= points; i++) {
+                const theta = (i * 2 * Math.PI) / points;
+                circlePoints.push({
+                    x: radius * Math.cos(theta),
+                    y: radius * Math.sin(theta)
+                });
             }
-            
-            const orthogonalEq = '\\text{Parametric orthogonal trajectories require solving coupled ODEs}';
-            
-            return { func, derivative, orthogonal: orthogonalEq };
+            return circlePoints;
         }
         
-        // Generate data points for explicit functions
-        function generateExplicitDataPoints(func, xMin, xMax, step) {
+        function generateLineThroughOrigin(angle, length) {
+            const points = [];
+            for (let t = -length; t <= length; t += 0.5) {
+                points.push({
+                    x: t * Math.cos(angle),
+                    y: t * Math.sin(angle)
+                });
+            }
+            return points;
+        }
+        
+        function generateParabola(param, xMin, xMax, step) {
             const points = [];
             for (let x = xMin; x <= xMax; x += step) {
-                const y = func(x);
-                if (!isNaN(y) && Math.abs(y) < 1000) { // Filter out extreme values
-                    points.push({x: x, y: y});
-                }
+                points.push({
+                    x: x,
+                    y: param * x * x
+                });
             }
             return points;
         }
         
-        // Generate data points for implicit functions
-        function generateImplicitDataPoints(equation, constants, xRange, yRange) {
+        function generateParabolaOrthogonal(offset, xMin, xMax, step) {
             const points = [];
-            const step = 0.1;
-            
-            if (equation.includes('x^2 + y^2 = r^2')) {
-                const r = constants.r || 3;
-                for (let theta = 0; theta < 2 * Math.PI; theta += 0.05) {
+            for (let x = xMin; x <= xMax; x += step) {
+                if (x !== 0) {
                     points.push({
-                        x: r * Math.cos(theta),
-                        y: r * Math.sin(theta)
-                    });
-                }
-            } else if (equation.includes('x^2/') && equation.includes('y^2/')) {
-                const aMatch = equation.match(/x\^2\/([0-9.]+)/);
-                const bMatch = equation.match(/y\^2\/([0-9.]+)/);
-                const a = constants.a || (aMatch ? Math.sqrt(parseFloat(aMatch[1])) : 2);
-                const b = constants.b || (bMatch ? Math.sqrt(parseFloat(bMatch[1])) : 3);
-                
-                for (let theta = 0; theta < 2 * Math.PI; theta += 0.05) {
-                    points.push({
-                        x: a * Math.cos(theta),
-                        y: b * Math.sin(theta)
+                        x: x,
+                        y: -0.5 * Math.log(Math.abs(x)) + offset
                     });
                 }
             }
-            
             return points;
         }
         
-        // Generate data points for parametric functions
-        function generateParametricDataPoints(func, tMin, tMax) {
+        function generateEllipse(a, b, points) {
+            const ellipsePoints = [];
+            for (let i = 0; i <= points; i++) {
+                const theta = (i * 2 * Math.PI) / points;
+                ellipsePoints.push({
+                    x: a * Math.cos(theta),
+                    y: b * Math.sin(theta)
+                });
+            }
+            return ellipsePoints;
+        }
+        
+        function generateEllipseOrthogonal(angle, param, length) {
             const points = [];
-            const step = 0.1;
-            for (let t = tMin; t <= tMax; t += step) {
-                const point = func(t);
-                if (!isNaN(point.x) && !isNaN(point.y)) {
-                    points.push({x: point.x, y: point.y});
+            for (let t = -length; t <= length; t += 0.5) {
+                const x = t * Math.cos(angle);
+                const y = t * Math.sin(angle) * Math.pow(Math.abs(t), param-1);
+                if (Math.abs(x) < 8 && Math.abs(y) < 8) {
+                    points.push({x, y});
                 }
             }
             return points;
         }
         
-        // Generate orthogonal trajectories
-        function generateOrthogonalTrajectories(originalPoints, derivativeFunc, count, length) {
-            const trajectories = [];
-            const intersections = [];
-            
-            // Select equally spaced points from original curve
-            const step = Math.max(1, Math.floor(originalPoints.length / count));
-            
-            for (let i = 0; i < originalPoints.length; i += step) {
-                const point = originalPoints[i];
-                if (!point || isNaN(point.x) || isNaN(point.y)) continue;
-                
-                // Get slope at this point
-                let slope;
-                if (typeof derivativeFunc === 'function' && derivativeFunc.length === 1) {
-                    // Function of one variable (for explicit)
-                    slope = derivativeFunc(point.x);
-                } else {
-                    // Function of two variables (for implicit)
-                    slope = derivativeFunc(point.x, point.y);
-                }
-                
-                if (isNaN(slope) || !isFinite(slope)) continue;
-                
-                // Orthogonal slope
-                const orthoSlope = -1 / slope;
-                
-                if (!isNaN(orthoSlope) && isFinite(orthoSlope)) {
-                    // Generate orthogonal line segment
-                    const dx = length / Math.sqrt(1 + orthoSlope * orthoSlope);
-                    const dy = orthoSlope * dx;
-                    
-                    trajectories.push({x: point.x - dx, y: point.y - dy});
-                    trajectories.push({x: point.x + dx, y: point.y + dy});
-                    trajectories.push({x: NaN, y: NaN}); // Break
+        function generateHyperbola(param, xMin, xMax, step) {
+            const points = [];
+            // Right branch
+            for (let x = 0.5; x <= xMax; x += step) {
+                points.push({
+                    x: x,
+                    y: param / x
+                });
+            }
+            // Left branch
+            for (let x = -0.5; x >= xMin; x -= step) {
+                points.push({
+                    x: x,
+                    y: param / x
+                });
+            }
+            return points;
+        }
+        
+        function generateHyperbolaOrthogonal(offset, xMin, xMax, step) {
+            const points = [];
+            for (let x = xMin; x <= xMax; x += step) {
+                const y = Math.sqrt(x*x + offset);
+                points.push({x, y});
+                points.push({x, y: -y});
+            }
+            return points;
+        }
+        
+        function generateLine(slope, xMin, xMax, step) {
+            const points = [];
+            for (let x = xMin; x <= xMax; x += step) {
+                points.push({
+                    x: x,
+                    y: slope * x
+                });
+            }
+            return points;
+        }
+        
+        function generateExponential(param, xMin, xMax, step) {
+            const points = [];
+            for (let x = xMin; x <= xMax; x += step) {
+                points.push({
+                    x: x,
+                    y: param * Math.exp(x)
+                });
+            }
+            return points;
+        }
+        
+        function generateExponentialOrthogonal(offset, xMin, xMax, step) {
+            const points = [];
+            for (let x = xMin; x <= xMax; x += step) {
+                points.push({
+                    x: x,
+                    y: -Math.exp(-x) + offset
+                });
+            }
+            return points;
+        }
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            updateCurveUI('circle');
+            generateGraph();
+        });
+    </script>
+</body>
+</html>
