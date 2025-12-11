@@ -228,6 +228,15 @@
             border-radius: 0 5px 5px 0;
         }
         
+        .constant-info {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 0 5px 5px 0;
+            font-size: 0.9rem;
+        }
+        
         @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
@@ -245,6 +254,36 @@
             font-size: 0.9rem;
             padding-top: 20px;
             border-top: 1px solid #eee;
+        }
+        
+        .grid-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .control-group label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .slider-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: #6a11cb;
         }
     </style>
 </head>
@@ -272,26 +311,46 @@
                     <label for="equation"><i class="fas fa-square-root-alt"></i> Curve Equation</label>
                     <input type="text" id="equation" placeholder="Enter equation, e.g., x^2 + y^2 or y = x^2">
                     <div class="predefined-examples">
-                        <p><strong>Predefined Examples:</strong></p>
+                        <p><strong>Predefined Examples (click to load):</strong></p>
                         <div class="example-list">
-                            <div class="example-btn" data-example="y = x^2">Parabola: y = x²</div>
-                            <div class="example-btn" data-example="x^2 + y^2 = r^2">Circle: x² + y² = r²</div>
-                            <div class="example-btn" data-example="y = 1/x">Hyperbola: y = 1/x</div>
-                            <div class="example-btn" data-example="y = sin(x)">Sine: y = sin(x)</div>
-                            <div class="example-btn" data-example="x^2/4 + y^2/9 = 1">Ellipse: x²/4 + y²/9 = 1</div>
-                            <div class="example-btn" data-example="y = e^x">Exponential: y = eˣ</div>
+                            <div class="example-btn" data-example="y = x^2" data-constant="">Parabola: y = x²</div>
+                            <div class="example-btn" data-example="x^2 + y^2 = r^2" data-constant="r=3">Circle: x² + y² = r²</div>
+                            <div class="example-btn" data-example="y = 1/x" data-constant="">Hyperbola: y = 1/x</div>
+                            <div class="example-btn" data-example="y = sin(x)" data-constant="">Sine: y = sin(x)</div>
+                            <div class="example-btn" data-example="x^2/4 + y^2/9 = 1" data-constant="">Ellipse: x²/4 + y²/9 = 1</div>
+                            <div class="example-btn" data-example="y = e^x" data-constant="">Exponential: y = eˣ</div>
+                            <div class="example-btn" data-example="y = ln(x)" data-constant="">Logarithm: y = ln(x)</div>
+                            <div class="example-btn" data-example="y = x^3" data-constant="">Cubic: y = x³</div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="parameter"><i class="fas fa-calculator"></i> Parameter Range (for parametric curves)</label>
-                    <input type="text" id="parameter" placeholder="t from -π to π" disabled>
+                    <label for="constant"><i class="fas fa-hashtag"></i> Constant Value</label>
+                    <input type="text" id="constant" placeholder="e.g., r=3, a=2, b=1">
+                    <div class="constant-info" id="constantInfo">
+                        <strong>Tip:</strong> For circles use r=value, for ellipses use a=value,b=value
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="constant"><i class="fas fa-hashtag"></i> Constant Value (if applicable)</label>
-                    <input type="text" id="constant" placeholder="e.g., r=3 for circles">
+                <div class="grid-controls">
+                    <div class="control-group">
+                        <label for="xRange">X-axis Range</label>
+                        <div class="slider-container">
+                            <span class="slider-value" id="xMinValue">-5</span>
+                            <input type="range" id="xRange" min="-10" max="10" step="0.5" value="-5,5" class="slider">
+                            <span class="slider-value" id="xMaxValue">5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="yRange">Y-axis Range</label>
+                        <div class="slider-container">
+                            <span class="slider-value" id="yMinValue">-5</span>
+                            <input type="range" id="yRange" min="-10" max="10" step="0.5" value="-5,5" class="slider">
+                            <span class="slider-value" id="yMaxValue">5</span>
+                        </div>
+                    </div>
                 </div>
                 
                 <button class="btn" id="calculateBtn">
@@ -299,7 +358,7 @@
                 </button>
                 
                 <div class="info-box">
-                    <p><strong>How it works:</strong> The calculator finds curves that intersect the given family of curves at right angles. For a curve family F(x, y, C) = 0, the orthogonal trajectories satisfy the differential equation obtained by replacing dy/dx with -dx/dy.</p>
+                    <p><strong>How it works:</strong> For a curve family F(x, y, C) = 0, orthogonal trajectories satisfy the differential equation obtained by replacing dy/dx with -dx/dy. For explicit curves y = f(x), find f'(x) then orthogonal slope = -1/f'(x).</p>
                 </div>
             </div>
             
@@ -318,6 +377,28 @@
                         <div class="legend-color" style="background-color: #2575fc;"></div>
                         <span>Orthogonal Trajectories</span>
                     </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #ff4757;"></div>
+                        <span>Intersection Points</span>
+                    </div>
+                </div>
+                
+                <div class="grid-controls">
+                    <div class="control-group">
+                        <label for="trajectoryCount">Number of Trajectories</label>
+                        <div class="slider-container">
+                            <span class="slider-value" id="trajectoryCountValue">5</span>
+                            <input type="range" id="trajectoryCount" min="1" max="20" step="1" value="5" class="slider">
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="trajectoryLength">Trajectory Length</label>
+                        <div class="slider-container">
+                            <span class="slider-value" id="trajectoryLengthValue">2</span>
+                            <input type="range" id="trajectoryLength" min="0.5" max="5" step="0.1" value="2" class="slider">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -328,6 +409,7 @@
             <div class="math-display">
                 <div id="originalEquation">Original curve: <span class="math-placeholder">Enter an equation to see it here</span></div>
                 <div id="orthogonalEquation">Orthogonal trajectory: <span class="math-placeholder">Calculation will appear here</span></div>
+                <div id="constantsInfo">Constants: <span class="math-placeholder">No constants defined</span></div>
             </div>
             
             <div class="steps" id="calculationSteps">
@@ -337,4 +419,561 @@
                 </div>
                 <div class="step">
                     <div class="step-title">Step 2: Derivative Calculation</div>
-                    <
+                    <p>The derivative will be calculated here.</p>
+                </div>
+                <div class="step">
+                    <div class="step-title">Step 3: Orthogonal Condition</div>
+                    <p>The orthogonal condition will be applied here.</p>
+                </div>
+                <div class="step">
+                    <div class="step-title">Step 4: Solution</div>
+                    <p>The orthogonal trajectory equation will be shown here.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Orthogonal Trajectory Calculator | Created with HTML, CSS, JavaScript, and Chart.js</p>
+            <p>Orthogonal trajectories are curves that intersect a given family of curves at right angles (90°).</p>
+        </div>
+    </div>
+
+    <script>
+        // DOM elements
+        const curveTypeSelect = document.getElementById('curveType');
+        const equationInput = document.getElementById('equation');
+        const constantInput = document.getElementById('constant');
+        const constantInfo = document.getElementById('constantInfo');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const originalEquationDiv = document.getElementById('originalEquation');
+        const orthogonalEquationDiv = document.getElementById('orthogonalEquation');
+        const constantsInfoDiv = document.getElementById('constantsInfo');
+        const calculationStepsDiv = document.getElementById('calculationSteps');
+        const exampleButtons = document.querySelectorAll('.example-btn');
+        
+        // Graph control elements
+        const xRangeSlider = document.getElementById('xRange');
+        const yRangeSlider = document.getElementById('yRange');
+        const trajectoryCountSlider = document.getElementById('trajectoryCount');
+        const trajectoryLengthSlider = document.getElementById('trajectoryLength');
+        const xMinValue = document.getElementById('xMinValue');
+        const xMaxValue = document.getElementById('xMaxValue');
+        const yMinValue = document.getElementById('yMinValue');
+        const yMaxValue = document.getElementById('yMaxValue');
+        const trajectoryCountValue = document.getElementById('trajectoryCountValue');
+        const trajectoryLengthValue = document.getElementById('trajectoryLengthValue');
+        
+        // Initialize slider values
+        let xRange = [-5, 5];
+        let yRange = [-5, 5];
+        let trajectoryCount = 5;
+        let trajectoryLength = 2;
+        
+        // Update slider display values
+        xRangeSlider.addEventListener('input', function() {
+            xRange = parseSliderValue(this.value);
+            xMinValue.textContent = xRange[0];
+            xMaxValue.textContent = xRange[1];
+        });
+        
+        yRangeSlider.addEventListener('input', function() {
+            yRange = parseSliderValue(this.value);
+            yMinValue.textContent = yRange[0];
+            yMaxValue.textContent = yRange[1];
+        });
+        
+        trajectoryCountSlider.addEventListener('input', function() {
+            trajectoryCount = parseInt(this.value);
+            trajectoryCountValue.textContent = trajectoryCount;
+        });
+        
+        trajectoryLengthSlider.addEventListener('input', function() {
+            trajectoryLength = parseFloat(this.value);
+            trajectoryLengthValue.textContent = trajectoryLength;
+        });
+        
+        function parseSliderValue(value) {
+            const parts = value.split(',').map(Number);
+            return parts.length === 2 ? parts : [parseFloat(value), parseFloat(value)];
+        }
+        
+        // Chart initialization
+        const ctx = document.getElementById('trajectoryChart').getContext('2d');
+        let trajectoryChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: 'Original Curve',
+                        data: [],
+                        backgroundColor: '#6a11cb',
+                        borderColor: '#6a11cb',
+                        pointRadius: 0,
+                        borderWidth: 3,
+                        showLine: true,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Orthogonal Trajectories',
+                        data: [],
+                        backgroundColor: '#2575fc',
+                        borderColor: '#2575fc',
+                        pointRadius: 0,
+                        borderWidth: 2,
+                        showLine: true,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Intersection Points',
+                        data: [],
+                        backgroundColor: '#ff4757',
+                        borderColor: '#ff4757',
+                        pointRadius: 3,
+                        borderWidth: 1,
+                        showLine: false,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        title: {
+                            display: true,
+                            text: 'x-axis',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'y-axis',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        mode: 'nearest',
+                        intersect: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        titleFont: {
+                            size: 14
+                        },
+                        bodyFont: {
+                            size: 13
+                        }
+                    }
+                },
+                elements: {
+                    line: {
+                        tension: 0.1
+                    }
+                }
+            }
+        });
+        
+        // Update constant info based on equation type
+        equationInput.addEventListener('input', function() {
+            const eq = this.value;
+            if (eq.includes('x^2 + y^2 = r^2')) {
+                constantInfo.innerHTML = '<strong>Circle constant:</strong> Enter r=value (e.g., r=3 for radius 3)';
+            } else if (eq.includes('x^2/a^2') || eq.includes('x^2/')) {
+                constantInfo.innerHTML = '<strong>Ellipse constants:</strong> Enter a=value,b=value (e.g., a=2,b=3)';
+            } else if (eq.includes('y = kx')) {
+                constantInfo.innerHTML = '<strong>Line constant:</strong> Enter k=value for slope';
+            } else {
+                constantInfo.innerHTML = '<strong>Tip:</strong> For circles use r=value, for ellipses use a=value,b=value';
+            }
+        });
+        
+        // Example button click handlers
+        exampleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const example = this.getAttribute('data-example');
+                const constant = this.getAttribute('data-constant');
+                
+                equationInput.value = example;
+                constantInput.value = constant;
+                
+                // Update constant info
+                equationInput.dispatchEvent(new Event('input'));
+                
+                // Trigger calculation
+                calculateOrthogonalTrajectory();
+            });
+        });
+        
+        // Calculate button click handler
+        calculateBtn.addEventListener('click', calculateOrthogonalTrajectory);
+        
+        // Main calculation function
+        function calculateOrthogonalTrajectory() {
+            const curveType = curveTypeSelect.value;
+            const equation = equationInput.value.trim();
+            const constantStr = constantInput.value.trim();
+            
+            if (!equation) {
+                alert('Please enter a curve equation or select an example.');
+                return;
+            }
+            
+            // Parse constants
+            const constants = parseConstants(constantStr);
+            
+            // Clear previous results
+            clearResults();
+            
+            // Process based on curve type
+            let originalFunc, derivativeFunc, orthogonalEq, dataPoints, intersectionPoints;
+            
+            try {
+                switch(curveType) {
+                    case 'explicit':
+                        // For y = f(x) format
+                        const explicitResult = processExplicitEquation(equation, constants);
+                        originalFunc = explicitResult.func;
+                        derivativeFunc = explicitResult.derivative;
+                        orthogonalEq = explicitResult.orthogonal;
+                        dataPoints = generateExplicitDataPoints(originalFunc, xRange[0], xRange[1], 0.1);
+                        break;
+                        
+                    case 'implicit':
+                        // For f(x, y) = 0 format
+                        const implicitResult = processImplicitEquation(equation, constants);
+                        originalFunc = implicitResult.func;
+                        derivativeFunc = implicitResult.derivative;
+                        orthogonalEq = implicitResult.orthogonal;
+                        dataPoints = generateImplicitDataPoints(equation, constants, xRange, yRange);
+                        break;
+                        
+                    case 'parametric':
+                        // For parametric curves
+                        const parametricResult = processParametricEquation(equation, constants);
+                        originalFunc = parametricResult.func;
+                        derivativeFunc = parametricResult.derivative;
+                        orthogonalEq = parametricResult.orthogonal;
+                        dataPoints = generateParametricDataPoints(originalFunc, xRange[0], xRange[1]);
+                        break;
+                }
+                
+                if (!dataPoints || dataPoints.length === 0) {
+                    throw new Error('Could not generate data points for the given equation.');
+                }
+                
+                // Update the chart with original curve data
+                updateChart(dataPoints, 'original');
+                
+                // Generate and plot orthogonal trajectories
+                if (derivativeFunc) {
+                    const orthogonalPoints = generateOrthogonalTrajectories(dataPoints, derivativeFunc, trajectoryCount, trajectoryLength);
+                    updateChart(orthogonalPoints.trajectories, 'orthogonal');
+                    updateChart(orthogonalPoints.intersections, 'intersection');
+                    intersectionPoints = orthogonalPoints.intersections;
+                }
+                
+                // Update results display
+                updateResults(equation, curveType, constants, orthogonalEq);
+                
+                // Update calculation steps
+                updateCalculationSteps(equation, curveType, constants, orthogonalEq, intersectionPoints);
+                
+            } catch(error) {
+                console.error('Error in calculation:', error);
+                alert('Error processing the equation. Please check your input or try a different example.\n\nError: ' + error.message);
+            }
+        }
+        
+        // Parse constants from string like "r=3,a=2,b=1"
+        function parseConstants(constantStr) {
+            const constants = {};
+            if (!constantStr) return constants;
+            
+            const pairs = constantStr.split(',');
+            pairs.forEach(pair => {
+                const [key, value] = pair.split('=').map(s => s.trim());
+                if (key && value) {
+                    constants[key] = parseFloat(value);
+                }
+            });
+            
+            return constants;
+        }
+        
+        // Process explicit equation y = f(x)
+        function processExplicitEquation(equation, constants) {
+            let expr = equation;
+            
+            // Extract right side if equation has equals sign
+            if (expr.includes('=')) {
+                expr = expr.split('=')[1].trim();
+            }
+            
+            // Replace common math functions and operators
+            expr = expr.replace(/\^/g, '**');
+            expr = expr.replace(/sin\(/g, 'Math.sin(');
+            expr = expr.replace(/cos\(/g, 'Math.cos(');
+            expr = expr.replace(/tan\(/g, 'Math.tan(');
+            expr = expr.replace(/exp\(/g, 'Math.exp(');
+            expr = expr.replace(/ln\(/g, 'Math.log(');
+            expr = expr.replace(/log\(/g, 'Math.log10(');
+            expr = expr.replace(/sqrt\(/g, 'Math.sqrt(');
+            expr = expr.replace(/pi/g, 'Math.PI');
+            expr = expr.replace(/e/g, 'Math.E');
+            
+            // Substitute constants
+            Object.keys(constants).forEach(key => {
+                const regex = new RegExp('\\b' + key + '\\b', 'g');
+                expr = expr.replace(regex, constants[key]);
+            });
+            
+            // Create the function
+            const func = function(x) {
+                try {
+                    return eval(expr);
+                } catch(e) {
+                    return NaN;
+                }
+            };
+            
+            // Numerical derivative
+            const derivative = function(x) {
+                const h = 0.0001;
+                const y1 = func(x);
+                const y2 = func(x + h);
+                if (isNaN(y1) || isNaN(y2)) return NaN;
+                return (y2 - y1) / h;
+            };
+            
+            // Determine orthogonal equation
+            let orthogonalEq = '';
+            if (equation.includes('y = x^2')) {
+                orthogonalEq = 'y = -\\frac{1}{2}\\ln|x| + C';
+            } else if (equation.includes('y = e^x') || equation.includes('y = exp(x)')) {
+                orthogonalEq = 'y = -e^{-x} + C';
+            } else if (equation.includes('y = sin(x)')) {
+                orthogonalEq = 'y = \\ln|\\sec(x) + \\tan(x)| + C';
+            } else if (equation.includes('y = 1/x')) {
+                orthogonalEq = 'x^2 - y^2 = C';
+            } else if (equation.includes('y = ln(x)')) {
+                orthogonalEq = 'y = -\\frac{1}{2}x^2 + C';
+            } else {
+                orthogonalEq = '\\frac{dy}{dx} = -\\frac{1}{f\'(x)}';
+            }
+            
+            return { func, derivative, orthogonal: orthogonalEq };
+        }
+        
+        // Process implicit equation f(x, y) = 0
+        function processImplicitEquation(equation, constants) {
+            let orthogonalEq = '';
+            let func, derivative;
+            
+            // For circles: x^2 + y^2 = r^2
+            if (equation.includes('x^2 + y^2 = r^2')) {
+                const r = constants.r || 3;
+                func = function(theta) {
+                    return {
+                        x: r * Math.cos(theta),
+                        y: r * Math.sin(theta)
+                    };
+                };
+                derivative = function(x, y) {
+                    return -x / y;
+                };
+                orthogonalEq = 'y = Cx \\quad \\text{(lines through origin)}';
+            }
+            // For ellipses: x^2/a^2 + y^2/b^2 = 1
+            else if (equation.includes('x^2/') && equation.includes('y^2/')) {
+                const aMatch = equation.match(/x\^2\/([0-9.]+)/);
+                const bMatch = equation.match(/y\^2\/([0-9.]+)/);
+                const a = constants.a || (aMatch ? Math.sqrt(parseFloat(aMatch[1])) : 2);
+                const b = constants.b || (bMatch ? Math.sqrt(parseFloat(bMatch[1])) : 3);
+                
+                func = function(theta) {
+                    return {
+                        x: a * Math.cos(theta),
+                        y: b * Math.sin(theta)
+                    };
+                };
+                derivative = function(x, y) {
+                    return -(b*b * x) / (a*a * y);
+                };
+                orthogonalEq = 'y = Cx^{\\pm' + (b/a).toFixed(2) + '}';
+            }
+            // General implicit
+            else {
+                func = null;
+                derivative = function(x, y) {
+                    // Numerical partial derivatives for implicit function
+                    const h = 0.0001;
+                    try {
+                        // This is a simplified approach - in practice would need to parse the equation
+                        return -x / y; // Default for symmetric equations
+                    } catch(e) {
+                        return NaN;
+                    }
+                };
+                orthogonalEq = '\\text{Solve } F_x dx + F_y dy = 0 \\text{ with } \\frac{dy}{dx} = -\\frac{F_x}{F_y}';
+            }
+            
+            return { func, derivative, orthogonal: orthogonalEq };
+        }
+        
+        // Process parametric equation
+        function processParametricEquation(equation, constants) {
+            // Default parametric: circle if no specific equation given
+            let func, derivative;
+            
+            if (equation.includes('x = cos(t), y = sin(t)') || equation.includes('x=cost,y=sint')) {
+                func = function(t) {
+                    return {
+                        x: Math.cos(t),
+                        y: Math.sin(t)
+                    };
+                };
+                derivative = function(t) {
+                    return -Math.cos(t) / Math.sin(t);
+                };
+            } else {
+                // Generic parametric
+                func = function(t) {
+                    return {
+                        x: Math.cos(t),
+                        y: Math.sin(2*t)
+                    };
+                };
+                derivative = function(t) {
+                    const h = 0.0001;
+                    const p1 = func(t);
+                    const p2 = func(t + h);
+                    return (p2.y - p1.y) / (p2.x - p1.x);
+                };
+            }
+            
+            const orthogonalEq = '\\text{Parametric orthogonal trajectories require solving coupled ODEs}';
+            
+            return { func, derivative, orthogonal: orthogonalEq };
+        }
+        
+        // Generate data points for explicit functions
+        function generateExplicitDataPoints(func, xMin, xMax, step) {
+            const points = [];
+            for (let x = xMin; x <= xMax; x += step) {
+                const y = func(x);
+                if (!isNaN(y) && Math.abs(y) < 1000) { // Filter out extreme values
+                    points.push({x: x, y: y});
+                }
+            }
+            return points;
+        }
+        
+        // Generate data points for implicit functions
+        function generateImplicitDataPoints(equation, constants, xRange, yRange) {
+            const points = [];
+            const step = 0.1;
+            
+            if (equation.includes('x^2 + y^2 = r^2')) {
+                const r = constants.r || 3;
+                for (let theta = 0; theta < 2 * Math.PI; theta += 0.05) {
+                    points.push({
+                        x: r * Math.cos(theta),
+                        y: r * Math.sin(theta)
+                    });
+                }
+            } else if (equation.includes('x^2/') && equation.includes('y^2/')) {
+                const aMatch = equation.match(/x\^2\/([0-9.]+)/);
+                const bMatch = equation.match(/y\^2\/([0-9.]+)/);
+                const a = constants.a || (aMatch ? Math.sqrt(parseFloat(aMatch[1])) : 2);
+                const b = constants.b || (bMatch ? Math.sqrt(parseFloat(bMatch[1])) : 3);
+                
+                for (let theta = 0; theta < 2 * Math.PI; theta += 0.05) {
+                    points.push({
+                        x: a * Math.cos(theta),
+                        y: b * Math.sin(theta)
+                    });
+                }
+            }
+            
+            return points;
+        }
+        
+        // Generate data points for parametric functions
+        function generateParametricDataPoints(func, tMin, tMax) {
+            const points = [];
+            const step = 0.1;
+            for (let t = tMin; t <= tMax; t += step) {
+                const point = func(t);
+                if (!isNaN(point.x) && !isNaN(point.y)) {
+                    points.push({x: point.x, y: point.y});
+                }
+            }
+            return points;
+        }
+        
+        // Generate orthogonal trajectories
+        function generateOrthogonalTrajectories(originalPoints, derivativeFunc, count, length) {
+            const trajectories = [];
+            const intersections = [];
+            
+            // Select equally spaced points from original curve
+            const step = Math.max(1, Math.floor(originalPoints.length / count));
+            
+            for (let i = 0; i < originalPoints.length; i += step) {
+                const point = originalPoints[i];
+                if (!point || isNaN(point.x) || isNaN(point.y)) continue;
+                
+                // Get slope at this point
+                let slope;
+                if (typeof derivativeFunc === 'function' && derivativeFunc.length === 1) {
+                    // Function of one variable (for explicit)
+                    slope = derivativeFunc(point.x);
+                } else {
+                    // Function of two variables (for implicit)
+                    slope = derivativeFunc(point.x, point.y);
+                }
+                
+                if (isNaN(slope) || !isFinite(slope)) continue;
+                
+                // Orthogonal slope
+                const orthoSlope = -1 / slope;
+                
+                if (!isNaN(orthoSlope) && isFinite(orthoSlope)) {
+                    // Generate orthogonal line segment
+                    const dx = length / Math.sqrt(1 + orthoSlope * orthoSlope);
+                    const dy = orthoSlope * dx;
+                    
+                    trajectories.push({x: point.x - dx, y: point.y - dy});
+                    trajectories.push({x: point.x + dx, y: point.y + dy});
+                    trajectories.push({x: NaN, y: NaN}); // Break
